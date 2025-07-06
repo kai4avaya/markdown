@@ -1,7 +1,7 @@
 // Kai Kleinbard Profile - Markdown Content
 const KAI_PROFILE_MARKDOWN = `# About Kai Kleinbard
 
-![Kai Kleinbard](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/master/images/kai-kleinbard-edtech_rounded.png)
+![Kai Kleinbard](https://raw.githubusercontent.com/kai4avaya/markdown/master/images/kai-kleinbard-edtech_rounded.png)
 
 I’ve always been drawn to both tech and education. I kicked off my academic journey researching ML systems at the University of Pennsylvania, dove into computer-human interaction and design at Harvard, and wrapped things up with an analytics degree from Georgia Tech.
 
@@ -23,7 +23,7 @@ A collaboration with Harvard Edge Computing, Quarch is an international, communi
 ### ML Systems Book 📚
 
 *A digital companion to machine learning systems—streamlining concepts and frameworks.*
-![ML Systems Book](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/mlsysbook2.png)
+![ML Systems Book](https://raw.githubusercontent.com/kai4avaya/markdown/master/images/mlsysbook2.png)
 An open-source textbook from the Harvard Edge AI lab featuring "Socratiq AI," a local-first AI teaching assistant embedded in the book. This work explores efficient in-browser embedding algorithms. [Visit Site](https://mlsysbook.ai/) \| [Read Paper](https://arxiv.org/abs/2502.00341) \| [TensorFlow Blog](https://blog.tensorflow.org/2024/11/mlsysbookai-principles-and-practices-of-machine-learning-systems-engineering.html)
 
 ### RWEFCKED 🔍

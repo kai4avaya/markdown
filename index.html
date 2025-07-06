@@ -170,6 +170,13 @@
 
     <!-- Main Application Script -->
     <script type="module" src="js/app.js"></script>
+    <!-- Mobile UI Script -->
+    <script type="module">
+      import { initMobileUI } from './js/mobileUI.js';
+      window.addEventListener('DOMContentLoaded', () => {
+        initMobileUI();
+      });
+    </script>
     
     <!-- Service Worker Registration -->
     <script>

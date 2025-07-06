@@ -82,6 +82,10 @@ export class UI {
         } else if (panelToShow === CONFIG.PANELS.AI) {
             this.aiPanel.classList.add('active');
             this.aiToolBtn.classList.add('active');
+            // Notify AI chat that panel was opened
+            import('./aiChat.js').then(({ aiChat }) => {
+                aiChat.onAIPanelOpened();
+            });
         }
     }
 

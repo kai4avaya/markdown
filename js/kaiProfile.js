@@ -9,13 +9,14 @@ Right now, I’m having a blast building generative art systems and diving into 
 
 ***
 
+<br>
 ## AI & Machine Learning Systems
 
 Projects focused on the research, development, and application of advanced AI and machine learning systems.
 
-### Quarch ⌛
+### QuArch ⌛
 
-*A compact archiving utility—mapping temporal data across blockchain timelines.*
+**Qu**estion-Answering for Computer **Arch**itecture\*—Community driven dataset to train LLMs on Computer Systems Architecture and Design\*
 ![Quarch](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/quarch.png)
 A collaboration with Harvard Edge Computing, Quarch is an international, community-driven dataset where multiple AIs compete to solve user-submitted questions. The platform is designed to train and benchmark ML systems, computer chips, and edge AI. [View Project](https://quarch.ai/)
 
@@ -27,9 +28,9 @@ An open-source textbook from the Harvard Edge AI lab featuring "Socratiq AI," a 
 
 ### RWEFCKED 🔍
 
-*A visual storytelling engine tracing vulnerabilities in digital supply chains.*
+*How does the state of democracy look to multiple LLMs?*
 ![RWEFCKED](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/rwefcked.png)
-This project uses AI to track news and visualize data related to democratic health. Users can vote on metrics based on AI-surfaced news, creating a visual analysis of digital and political vulnerabilities. [View Project](https://rwefcked.vercel.app/)
+This project uses AI to track news and visualize data related to democratic health. LLMs can rank the state of democracy based on Democracy US news, creating a visual analysis of digital and political vulnerabilities. [View Project](https://rwefcked.vercel.app/)
 
 ***
 
@@ -57,13 +58,13 @@ A tool for sketching with vector graphics, allowing users to share creations and
 
 ### Movement Analysis 🏃‍♂️
 
-*Visualizing biomechanical data to understand movement and behavior patterns.*
+*Visualizing pose data to understand movement and behavior patterns.*
 ![Movement Analysis](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/movement_analysis.png)
 This application uses AI pose tracking to help users learn physical movements, track posture, and even automatically generate music based on their body motion, blending wellness with creative expression. [View Project](https://tranquil-alpaca-403967.netlify.app/)
 
 ### Somtatkai 🎭
 
-*An introspective collage—abstracting memory and identity into dynamic layers.*
+*Deep Research honed to support parents and caregivers of neurodiverse people.*
 ![Somtatkai](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/somtatkai.png)
 A free AI resource designed to assist learners with ADHD. The platform provides mindfulness tools and leverages deep research into specialized AI search to create a more focused learning environment. [View Project](https://embodiedlearner.com/)
 
@@ -93,10 +94,11 @@ An archival version of my personal portfolio from the pre-ChatGPT era, showcasin
 
 ## About This AI Editor
 
-This profile was created using my **AI-First Textbook Editor** - a local-first, privacy-focused document editor that runs entirely in your browser. Everything you write is saved locally on your device, and you can download it as a Progressive Web App (PWA) for offline use. The editor preserves publicly accessible images and integrates AI assistance while keeping your content private and secure.
+This profile was created using my **AI-First Textbook Editor** \- a local\-first\, privacy\-focused document editor that runs entirely in your browser\. Everything you write is saved locally on your device\, and you can download it as a Progressive Web App \(PWA\) for offline use\. The editor preserves publicly accessible images and integrates AI assistance while keeping your content private and secure\.
 
 -Kai Kleinbard
-- Email: bakuk@gmail.com`;
+
+* Email: bakuk@gmail.com`;
 
 // Quick Start Guide - Markdown Content
 const QUICK_START_MARKDOWN = `# Quick Start Guide - AI Textbook Editor

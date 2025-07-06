@@ -31,7 +31,7 @@ export class AIChat {
         this.loadSettings();
         this.checkApiKey();
         
-        // Show welcome message only once on page load
+        // Load chat history if API key exists
         if ((this.apiKey || this.tempApiKey) && this.chatMessages.children.length === 0 && !this.initialized) {
             this.loadChatHistory();
             this.initialized = true;
@@ -58,6 +58,14 @@ export class AIChat {
         this.setupResizeObserver();
     }
 
+    // Check if user is opening AI panel for the first time
+    onAIPanelOpened() {
+        const hasKey = this.apiKey || this.tempApiKey;
+        if (!hasKey) {
+            this.showWelcomeMessage();
+        }
+    }
+
     // Check if API key exists and update UI
     checkApiKey() {
         const hasKey = this.apiKey || this.tempApiKey;
@@ -68,7 +76,19 @@ export class AIChat {
             this.chatInput.disabled = false;
             this.chatSendBtn.disabled = false;
         } else {
-            this.addChatMessage('Please enter your Gemini API key to start chatting.', 'ai');
+            this.showWelcomeMessage();
+            this.apiKeySection.style.display = 'block';
+            this.aiSettingsBtn.classList.remove('hidden');
+            this.newChatBtn.classList.remove('hidden');
+            this.chatInput.disabled = true;
+            this.chatSendBtn.disabled = true;
+        }
+    }
+
+    // Show welcome message for first-time users
+    showWelcomeMessage() {
+        if (this.chatMessages.children.length === 0) {
+            this.addChatMessage('Welcome! To get started with the AI assistant, please enter your Gemini API key in the settings panel below. You can get a free API key from Google AI Studio.', 'ai');
         }
     }
 

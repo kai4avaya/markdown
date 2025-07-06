@@ -113,25 +113,45 @@ function activateMobileUI() {
       const aiPanel = document.getElementById('ai-panel');
       content = aiPanel ? aiPanel.innerHTML : '<div>AI not available</div>';
       tabContent.innerHTML = content;
-      // Patch: update aiChat DOM references to the new elements in the mobile panel
-      if (window.aiChat) {
-        window.aiChat.chatInput = tabContent.querySelector('#chat-input');
-        window.aiChat.chatSendBtn = tabContent.querySelector('#chat-send-btn');
-        window.aiChat.chatMessages = tabContent.querySelector('#chat-messages');
-        window.aiChat.apiKeyInput = tabContent.querySelector('#api-key-input');
-        window.aiChat.saveApiKeyBtn = tabContent.querySelector('#save-api-key-btn');
-        window.aiChat.apiKeySection = tabContent.querySelector('#api-key-section');
-        window.aiChat.aiSettingsBtn = tabContent.querySelector('#ai-settings-btn');
-        window.aiChat.newChatBtn = tabContent.querySelector('#new-chat-btn');
-        window.aiChat.saveLocallyCheckbox = tabContent.querySelector('#save-locally-checkbox');
-        window.aiChat.knowledgeBaseCheckbox = tabContent.querySelector('#knowledge-base-checkbox');
-        window.aiChat.promptDropdown = tabContent.querySelector('#prompt-dropdown');
-        window.aiChat.customPromptSection = tabContent.querySelector('#custom-prompt-section');
-        window.aiChat.customPromptInput = tabContent.querySelector('#custom-prompt-input');
-        window.aiChat.defaultPromptSection = tabContent.querySelector('#default-prompt-section');
-        window.aiChat.defaultPromptDisplay = tabContent.querySelector('#default-prompt-display');
-        window.aiChat.initializeEventListeners();
-      }
+      // Wire up AI functionality for mobile
+      import('./aiChat.js').then(({ aiChat }) => {
+        // Update DOM references
+        aiChat.chatInput = tabContent.querySelector('#chat-input');
+        aiChat.chatSendBtn = tabContent.querySelector('#chat-send-btn');
+        aiChat.chatMessages = tabContent.querySelector('#chat-messages');
+        aiChat.apiKeyInput = tabContent.querySelector('#api-key-input');
+        aiChat.saveApiKeyBtn = tabContent.querySelector('#save-api-key-btn');
+        aiChat.apiKeySection = tabContent.querySelector('#api-key-section');
+        aiChat.aiSettingsBtn = tabContent.querySelector('#ai-settings-btn');
+        aiChat.newChatBtn = tabContent.querySelector('#new-chat-btn');
+        aiChat.saveLocallyCheckbox = tabContent.querySelector('#save-locally-checkbox');
+        aiChat.knowledgeBaseCheckbox = tabContent.querySelector('#knowledge-base-checkbox');
+        aiChat.promptDropdown = tabContent.querySelector('#prompt-dropdown');
+        aiChat.customPromptSection = tabContent.querySelector('#custom-prompt-section');
+        aiChat.customPromptInput = tabContent.querySelector('#custom-prompt-input');
+        aiChat.defaultPromptSection = tabContent.querySelector('#default-prompt-section');
+        aiChat.defaultPromptDisplay = tabContent.querySelector('#default-prompt-display');
+        
+        // Rebind event listeners to mobile elements
+        aiChat.chatSendBtn?.addEventListener('click', () => aiChat.handleAIChat());
+        aiChat.chatInput?.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            aiChat.handleAIChat();
+          }
+        });
+        aiChat.saveApiKeyBtn?.addEventListener('click', () => aiChat.saveApiKey());
+        aiChat.aiSettingsBtn?.addEventListener('click', () => aiChat.toggleSettings());
+        aiChat.newChatBtn?.addEventListener('click', () => aiChat.newChat());
+        aiChat.promptDropdown?.addEventListener('change', () => aiChat.handlePromptChange());
+        aiChat.customPromptInput?.addEventListener('input', () => aiChat.saveCustomPrompt());
+        aiChat.knowledgeBaseCheckbox?.addEventListener('change', () => aiChat.saveKnowledgeBaseSetting());
+        
+        // Load settings and check API key for mobile
+        aiChat.loadSettings();
+        aiChat.checkApiKey();
+        aiChat.onAIPanelOpened();
+      });
     }
     console.log(`[MobileUI] Switched to tab: ${tab}`);
   }

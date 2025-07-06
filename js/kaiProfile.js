@@ -3,10 +3,7 @@ const KAI_PROFILE_MARKDOWN = `# About Kai Kleinbard
 
 ![Kai Kleinbard](https://raw.githubusercontent.com/kai4avaya/markdown/master/images/kai-kleinbard-edtech_rounded.png)
 
-I’ve always been drawn to both tech and education. I kicked off my academic journey researching ML systems at the University of Pennsylvania, dove into computer-human interaction and design at Harvard, and wrapped things up with an analytics degree from Georgia Tech.
-
-Right now, I’m having a blast building generative art systems and diving into that sweet spot where art, movement, AI, and learning collide. My driving force is crafting more intuitive, equitable learning experiences—using technology to blur the line between the digital and the physical.
-
+My career began at the intersection of education and advocacy, where I founded and led a company dedicated to supporting neurodiverse populations. This firsthand experience revealed the profound need for better tools and inspired my shift into technology. Today, I build at the exciting convergence of art, movement, AI, and learning. My driving force is to leverage technology to craft more intuitive and equitable experiences, blurring the line between the digital and the physical to unlock new ways of teaching and understanding.
 ***
 
 <br>

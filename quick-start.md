@@ -1,6 +1,6 @@
 # Quick Start Guide - AI Textbook Editor
 
-Welcome to your **AI-First Textbook Editor**! This is a local-first, privacy-focused document editor that runs entirely in your browser.
+Welcome to **Mark↓ Editor**! This is a local-first, privacy-focused document editor that runs entirely in your browser.
 
 ## 🚀 Getting Started
 

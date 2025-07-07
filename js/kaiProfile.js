@@ -39,7 +39,7 @@ An open-source textbook from the Harvard Edge AI lab featuring "Socratiq AI," a 
 
 ### RWEFCKED ◪
 
-*How does the state of democracy look to multiple LLMs?*
+*What is the state of democracy according to LLMs?*
 
 ![RWEFCKED](https://proxy-worker.proxy-kai.workers.dev/image/edit?url=https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/rwefcked.png&quality=0.7&format=webp)
 This project uses AI to track news and visualize data related to democratic health. LLMs can rank the state of democracy based on Democracy US news, creating a visual analysis of digital and political vulnerabilities. [View RWEFCKED ](https://rwefcked.vercel.app/)

@@ -12,11 +12,13 @@ export class UI {
     initializeElements() {
         // Tool buttons
         this.filesToolBtn = document.getElementById('files-tool-btn');
+        this.searchToolBtn = document.getElementById('search-tool-btn');
         this.outlineToolBtn = document.getElementById('outline-tool-btn');
         this.aiToolBtn = document.getElementById('ai-tool-btn');
         
         // Panels
         this.filesPanel = document.getElementById('files-panel');
+        this.searchPanel = document.getElementById('search-panel');
         this.outlinePanel = document.getElementById('outline-panel');
         this.aiPanel = document.getElementById('ai-panel');
         
@@ -44,6 +46,8 @@ export class UI {
     initializeActivePanel() {
         if (this.filesPanel.classList.contains('active')) {
             this.currentActivePanel = CONFIG.PANELS.FILES;
+        } else if (this.searchPanel.classList.contains('active')) {
+            this.currentActivePanel = CONFIG.PANELS.SEARCH;
         } else if (this.outlinePanel.classList.contains('active')) {
             this.currentActivePanel = CONFIG.PANELS.OUTLINE;
         } else if (this.aiPanel.classList.contains('active')) {
@@ -65,8 +69,8 @@ export class UI {
         this.currentActivePanel = panelToShow;
         this.openSidebar();
         
-        const panels = [this.filesPanel, this.outlinePanel, this.aiPanel];
-        const toolBtns = [this.filesToolBtn, this.outlineToolBtn, this.aiToolBtn];
+        const panels = [this.filesPanel, this.searchPanel, this.outlinePanel, this.aiPanel];
+        const toolBtns = [this.filesToolBtn, this.searchToolBtn, this.outlineToolBtn, this.aiToolBtn];
         
         panels.forEach(p => p.classList.remove('active'));
         toolBtns.forEach(b => b.classList.remove('active'));
@@ -76,6 +80,15 @@ export class UI {
             this.filesToolBtn.classList.add('active');
             // Refresh file list when files panel is shown
             fileSystem.populateFileList();
+        } else if (panelToShow === CONFIG.PANELS.SEARCH) {
+            console.log('[UI] Switching to search panel');
+            this.searchPanel.classList.add('active');
+            this.searchToolBtn.classList.add('active');
+            // Refresh search results when search panel is shown
+            import('./searchPanel.js').then(({ populateSearchResults }) => {
+                console.log('[UI] Calling populateSearchResults');
+                populateSearchResults();
+            });
         } else if (panelToShow === CONFIG.PANELS.OUTLINE) {
             this.outlinePanel.classList.add('active');
             this.outlineToolBtn.classList.add('active');
@@ -95,7 +108,7 @@ export class UI {
         this.currentActivePanel = null;
         
         // Remove active state from all tool buttons
-        const toolBtns = [this.filesToolBtn, this.outlineToolBtn, this.aiToolBtn];
+        const toolBtns = [this.filesToolBtn, this.searchToolBtn, this.outlineToolBtn, this.aiToolBtn];
         toolBtns.forEach(b => b.classList.remove('active'));
     }
 

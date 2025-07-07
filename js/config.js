@@ -1,8 +1,10 @@
+
+
 // Configuration constants for the AI Textbook Editor
 export const CONFIG = {
     // Editor settings
     EDITOR: {
-        INITIAL_VALUE: '# Welcome to the AI Textbook Editor!\n\nStart typing here, or open a folder to begin editing your files.',
+        INITIAL_VALUE: '# Welcome to Mark↓ Editor!\n\nStart typing here, or open a folder to begin editing your files.',
         OUTLINE_UPDATE_DELAY: 300, // milliseconds
         QUICK_START_FILE: 'quick-start.md',
         KAI_PROFILE_FILE: 'about-kai-kleinbard.md',
@@ -28,6 +30,7 @@ export const CONFIG = {
     // Panel types
     PANELS: {
         FILES: 'files',
+        SEARCH: 'search',
         OUTLINE: 'outline',
         AI: 'ai',
     },

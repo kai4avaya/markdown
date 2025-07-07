@@ -124,6 +124,11 @@ export class FileSystem {
         if (!foundFiles) {
             this.fileList.innerHTML = '<li class="text-gray-400 text-sm p-2">No Markdown files found.</li>';
         }
+        
+        // Update search panel with new files
+        import('./searchPanel.js').then(({ populateSearchResults }) => {
+            populateSearchResults();
+        });
     }
 
     // Check if file is a markdown file

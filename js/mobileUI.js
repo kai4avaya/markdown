@@ -49,6 +49,7 @@ function activateMobileUI() {
     </div>
     <div id="mobile-tabs" style="display:flex;justify-content:space-around;border-bottom:1px solid #e5e7eb;background:#fff;">
       <button class="mobile-tab" data-tab="files" style="flex:1;padding:12px 0;font-weight:500;">Files</button>
+      <button class="mobile-tab" data-tab="search" style="flex:1;padding:12px 0;font-weight:500;">Search</button>
       <button class="mobile-tab" data-tab="outline" style="flex:1;padding:12px 0;font-weight:500;">Outline</button>
       <button class="mobile-tab" data-tab="ai" style="flex:1;padding:12px 0;font-weight:500;">AI</button>
     </div>
@@ -136,6 +137,38 @@ function activateMobileUI() {
           }
         });
       });
+    } else if (tab === 'search') {
+      const searchPanel = document.getElementById('search-panel');
+      content = searchPanel ? searchPanel.innerHTML : '<div>Search not available</div>';
+      tabContent.innerHTML = content;
+      // Rebind search functionality for mobile
+      const searchInput = tabContent.querySelector('#search-input');
+      const searchResultsList = tabContent.querySelector('#search-results-list');
+      if (searchInput && searchResultsList) {
+        import('./searchPanel.js').then(({ populateSearchResults }) => {
+          populateSearchResults();
+        });
+        searchInput.addEventListener('input', async (e) => {
+          const query = e.target.value.toLowerCase();
+          Array.from(searchResultsList.children).forEach(item => {
+            const fileName = item.textContent.toLowerCase();
+            const isVisible = fileName.includes(query);
+            item.classList.toggle('hidden', !isVisible);
+          });
+        });
+        // Rebind file click handlers for mobile search
+        tabContent.querySelectorAll('.list-item').forEach(fileItem => {
+          fileItem.addEventListener('click', () => {
+            const fileName = fileItem.dataset.fileName;
+            if (fileName) {
+              import('./fileSystem.js').then(({ fileSystem }) => {
+                fileSystem.openFile(fileName, fileItem);
+              });
+              showMobileToast(`Opening: ${fileName}`);
+            }
+          });
+        });
+      }
     } else if (tab === 'outline') {
       const outlinePanel = document.getElementById('outline-panel');
       content = outlinePanel ? outlinePanel.innerHTML : '<div>Outline not available</div>';

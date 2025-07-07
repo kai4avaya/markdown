@@ -5,6 +5,7 @@ import { editor } from './editor.js';
 import { indexedDBService } from './indexedDB.js';
 import { appState } from './state.js';
 import { CONFIG } from './config.js';
+import { initSearchPanel } from './searchPanel.js';
 
 // Main application class for the AI Textbook Editor
 export class App {
@@ -27,7 +28,7 @@ export class App {
             aiChat.initializeChat();
             
             this.initialized = true;
-            console.log('AI Textbook Editor initialized successfully');
+            console.log('Mark↓ Editor initialized successfully');
             // Hide loader overlay
             const loader = document.getElementById('app-loader');
             if (loader) loader.style.display = 'none';
@@ -50,6 +51,9 @@ export class App {
         // Initialize file system event listeners
         fileSystem.initializeEventListeners();
         
+        // Initialize search panel
+        initSearchPanel();
+        
         // Load last edited file or handle first-time user
         await fileSystem.loadLastEditedFile();
     }
@@ -59,6 +63,10 @@ export class App {
         // Panel switching event listeners
         document.getElementById('files-tool-btn').addEventListener('click', () => 
             ui.switchPanel(CONFIG.PANELS.FILES)
+        );
+        
+        document.getElementById('search-tool-btn').addEventListener('click', () => 
+            ui.switchPanel(CONFIG.PANELS.SEARCH)
         );
         
         document.getElementById('outline-tool-btn').addEventListener('click', () => 

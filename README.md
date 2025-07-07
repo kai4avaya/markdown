@@ -229,7 +229,7 @@ This project is licensed under the **Creative Commons Attribution-ShareAlike 4.0
 ### Required Attribution
 Include this notice in your project:
 ```
-Based on AI Textbook Editor by Kai Kleinbard
+Based on Mark↓ Editor by Kai Kleinbard
 Original: https://github.com/kai4avaya/portfolio-kai-kleinbard-2025
 License: CC BY-SA 4.0
 ```

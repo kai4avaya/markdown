@@ -1,6 +1,6 @@
 # Mark↓
 
-A modern, modular AI-powered textbook editor built with vanilla JavaScript, featuring a markdown editor, file management, document outline, and AI assistance.
+A modern, modular AI-powered markdown editor built with vanilla JavaScript, featuring a markdown editor, file management, document outline, and AI assistance.
 
 ## Features
 
@@ -12,10 +12,8 @@ A modern, modular AI-powered textbook editor built with vanilla JavaScript, feat
 
 ## Project Structure
 
-The application has been modularized for better maintainability and code organization:
-
 ```
-ownCourse2/
+Mark↓/
 ├── index.html              # Main HTML file
 ├── css/
 │   └── styles.css          # Custom CSS styles

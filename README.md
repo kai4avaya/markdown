@@ -161,6 +161,81 @@ The modular structure makes it easy to:
 - **"ResizeObserver loop" warnings**: These are benign warnings from the Toast UI library
 - **AI not responding**: Check your API key configuration in `config.js`
 
+## Customization
+
+### Making It Your Own
+
+Want to create your own personal portfolio site? Here's how to customize the editor:
+
+#### 1. Replace the Profile Content
+Edit `js/kaiProfile.js` to add your own content:
+
+```javascript
+// Replace with your own profile markdown
+const KAI_PROFILE_MARKDOWN = `# About [Your Name]
+
+![Your Photo](https://your-image-url.com/photo.jpg)
+
+Your bio and introduction here...
+
+## Your Projects
+
+### Project 1
+*Description of your project*
+![Project Image](https://your-image-url.com/project1.jpg)
+Your project description and links.
+
+// Add more sections as needed
+`;
+```
+
+#### 2. Update Configuration
+Modify `js/config.js` to change:
+- Default file names
+- Editor settings
+- AI API configuration
+
+#### 3. Customize Styling
+Edit `css/styles.css` to match your brand:
+- Colors and themes
+- Fonts and typography
+- Layout adjustments
+
+#### 4. Update Metadata
+Change `index.html` to update:
+- Page title
+- Meta descriptions
+- Favicon
+
+### Deployment
+
+1. **GitHub Pages**: Push to a GitHub repo and enable Pages
+2. **Netlify**: Drag and drop your folder to Netlify
+3. **Vercel**: Connect your GitHub repo to Vercel
+4. **Any static host**: Upload the files to any web server
+
+## License & Attribution
+
+This project is licensed under the **Creative Commons Attribution-ShareAlike 4.0 International License**.
+
+**You are free to:**
+- ✅ Use this code for personal or commercial projects
+- ✅ Modify and adapt the code
+- ✅ Share and redistribute
+
+**Under these conditions:**
+- 📝 **Attribution**: You must give appropriate credit to the original author (Kai Kleinbard)
+- 🔄 **ShareAlike**: If you remix or build upon this work, you must distribute under the same license
+- 🌐 **Open Source**: Any derivative work must remain open source
+
+### Required Attribution
+Include this notice in your project:
+```
+Based on AI Textbook Editor by Kai Kleinbard
+Original: https://github.com/kai4avaya/portfolio-kai-kleinbard-2025
+License: CC BY-SA 4.0
+```
+
 ## Contribute
 
 I’d love your help making this project even better!  

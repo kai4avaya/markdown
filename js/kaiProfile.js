@@ -1,4 +1,15 @@
 // Kai Kleinbard Profile - Markdown Content
+// 
+// CUSTOMIZATION GUIDE:
+// To make this your own personal portfolio site, replace the content below with your own:
+// 1. Change the name, bio, and image URLs
+// 2. Replace project sections with your own work
+// 3. Update links to point to your projects
+// 4. Modify the styling and branding as needed
+// 
+// Remember: This project is licensed under CC BY-SA 4.0
+// You must keep it open source and attribute the original work
+// 
 const KAI_PROFILE_MARKDOWN = `# About Kai Kleinbard
 
 ![Kai Kleinbard](https://raw.githubusercontent.com/kai4avaya/markdown/master/images/kai-kleinbard-edtech_rounded.png)

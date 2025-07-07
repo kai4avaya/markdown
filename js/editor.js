@@ -35,13 +35,46 @@ export class Editor {
                 // Check for URL query parameters
                 const urlParams = new URLSearchParams(window.location.search);
                 const requestedFile = urlParams.get('file');
+                const sharedContent = urlParams.get('share');
+                const sharedName = urlParams.get('name');
                 
                 // Determine initial content and edit type
                 let initialContent = CONFIG.EDITOR.INITIAL_VALUE;
                 let initialEditType = 'markdown'; // Default for returning users
                 
                 try {
-                                    if (requestedFile) {
+                    if (sharedContent && sharedName) {
+                    console.log('[Editor] Processing shared content:', { sharedName, contentLength: sharedContent.length });
+                    
+                    // Handle shared content
+                    initialEditType = 'wysiwyg';
+                    const decodedContent = decodeURIComponent(atob(sharedContent).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+                    initialContent = decodedContent;
+                    
+                    console.log('[Editor] Decoded content length:', decodedContent.length);
+                    
+                    // Save shared file to IndexedDB
+                    const fileName = `${decodeURIComponent(sharedName)}.md`;
+                    console.log('[Editor] Saving shared file as:', fileName);
+                    
+                    try {
+                        const savedFile = await indexedDBService.saveFile(fileName, decodedContent, 'shared');
+                        console.log('[Editor] Shared file saved successfully:', savedFile);
+                        
+                        // Update file list to show the new shared file
+                        setTimeout(() => {
+                            console.log('[Editor] Updating file list after shared file save');
+                            if (window.fileSystem && window.fileSystem.populateFileList) {
+                                window.fileSystem.populateFileList();
+                            }
+                        }, 100);
+                    } catch (error) {
+                        console.error('[Editor] Error saving shared file:', error);
+                    }
+                    
+                    // Clean URL after processing
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                } else if (requestedFile) {
                     // User specified a file via URL parameter
                     initialEditType = 'wysiwyg'; // Always use WYSIWYG for specific files
                     initialContent = await this.loadFileContent(requestedFile);
@@ -84,6 +117,9 @@ export class Editor {
                     
                 } catch (error) {
                     console.error('Error loading initial content:', error);
+                    if (sharedContent) {
+                        ui.showToast('Error loading shared content', CONFIG.MESSAGE_TYPES.ERROR);
+                    }
                 }
                 
                 this.editor = new Editor({
@@ -103,6 +139,8 @@ export class Editor {
                             el: this.createButton('open-folder', 'Open Folder', () => fileSystem.openFolder())
                         }, {
                             el: this.createButton('new-file', 'New File', () => fileSystem.createNewFileDialog())
+                        }, {
+                            el: this.createButton('share-file', 'Share', () => this.shareFile())
                         }, {
                             el: this.createDownloadDropdown()
                         }]
@@ -259,6 +297,31 @@ export class Editor {
         
         // Show success message
         ui.showToast(`Downloaded: ${fileName}`);
+    }
+
+    async shareFile() {
+        const editor = appState.getEditor();
+        if (!editor) return;
+        
+        const content = editor.getMarkdown();
+        const currentFileHandle = appState.getCurrentFileHandle();
+        let fileName = 'shared-document';
+        
+        if (currentFileHandle && currentFileHandle.name) {
+            fileName = currentFileHandle.name.replace(/\.[^/.]+$/, '');
+        }
+        
+        // Compress and encode content (handle Unicode properly)
+        const compressed = btoa(encodeURIComponent(content).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1)));
+        const shareUrl = `${window.location.origin}${window.location.pathname}?share=${compressed}&name=${encodeURIComponent(fileName)}`;
+        
+        try {
+            await navigator.clipboard.writeText(shareUrl);
+            ui.showToast('Share link copied to clipboard!');
+        } catch (err) {
+            console.error('Failed to copy to clipboard:', err);
+            ui.showToast('Failed to copy share link', CONFIG.MESSAGE_TYPES.ERROR);
+        }
     }
 
     addCustomToolbarItems() {

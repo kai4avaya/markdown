@@ -32,11 +32,14 @@ export class FileSystem {
 
     // Populate the file list with markdown files
     async populateFileList() {
+        console.log('[FileSystem] populateFileList called');
         const directoryHandle = appState.getDirectoryHandle();
         const directoryName = appState.getCurrentDirectoryName();
+        console.log('[FileSystem] Current directory:', directoryName);
         
         // Always try to load from IndexedDB, even if no directory is open
         if (!directoryHandle && !directoryName) {
+            console.log('[FileSystem] No directory handle or name, loading unsaved files');
             // Try to load from default unsaved directory
             await this.loadUnsavedFiles();
             return;
@@ -58,10 +61,11 @@ export class FileSystem {
             }
         }
         
-        // Add files from IndexedDB
+        // Add files from IndexedDB for current directory
         if (directoryName) {
             try {
                 const savedFiles = await indexedDBService.getFilesByDirectory(directoryName);
+                console.log('[FileSystem] Files from current directory:', savedFiles);
                 for (const savedFile of savedFiles) {
                     if (!fileSet.has(savedFile.fileName)) {
                         foundFiles = true;
@@ -73,6 +77,22 @@ export class FileSystem {
             } catch (err) {
                 console.error('Error loading saved files:', err);
             }
+        }
+        
+        // Also add shared files (from 'shared' directory)
+        try {
+            const sharedFiles = await indexedDBService.getFilesByDirectory('shared');
+            console.log('[FileSystem] Shared files found:', sharedFiles);
+            for (const sharedFile of sharedFiles) {
+                if (!fileSet.has(sharedFile.fileName)) {
+                    foundFiles = true;
+                    fileSet.add(sharedFile.fileName);
+                    const li = this.createFileListItem(sharedFile.fileName, 'indexeddb', true);
+                    this.fileList.appendChild(li);
+                }
+            }
+        } catch (err) {
+            console.error('Error loading shared files:', err);
         }
         
         // Also show quick start guide if it exists (regardless of current directory)

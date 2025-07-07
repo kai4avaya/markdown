@@ -3,7 +3,8 @@ const KAI_PROFILE_MARKDOWN = `# About Kai Kleinbard
 
 ![Kai Kleinbard](https://raw.githubusercontent.com/kai4avaya/markdown/master/images/kai-kleinbard-edtech_rounded.png)
 
-My career began at the intersection of education and advocacy, where I founded and led a company dedicated to supporting neurodiverse populations. This firsthand experience revealed the profound need for better tools and inspired my shift into technology. Today, I build at the exciting convergence of art, movement, AI, and learning. My driving force is to leverage technology to craft more intuitive and equitable experiences, blurring the line between the digital and the physical to unlock new ways of teaching and understanding.
+Thank you for checking out my portfolio (as of 2024). This document is built using **Mark↓**, a simple open source [AI Markdown Editor](https://kai4avaya.github.io/markdown) I created. My career began at the intersection of education and advocacy, where I founded and led a company dedicated to supporting neurodiverse populations. This firsthand experience revealed the profound need for better tools and inspired my shift into technology. Today, I build at the exciting convergence of art, movement, AI, and learning. My driving force is to leverage technology to craft more intuitive and equitable experiences, blurring the line between the digital and the physical to unlock new ways of teaching and understanding.
+
 ***
 
 <br>
@@ -59,7 +60,7 @@ A tool for sketching with vector graphics, allowing users to share creations and
 ![Movement Analysis](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/movement_analysis.png)
 This application uses AI pose tracking to help users learn physical movements, track posture, and even automatically generate music based on their body motion, blending wellness with creative expression. [View Project](https://tranquil-alpaca-403967.netlify.app/)
 
-### Somtatkai 🎭
+### EmbodiedLearner 🎭
 
 *Deep Research honed to support parents and caregivers of neurodiverse people.*
 ![Somtatkai](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/somtatkai.png)
@@ -91,7 +92,7 @@ An archival version of my personal portfolio from the pre-ChatGPT era, showcasin
 
 ## About This AI Editor
 
-This profile was created using my **AI-First Textbook Editor** \- a local\-first\, privacy\-focused document editor that runs entirely in your browser\. Everything you write is saved locally on your device\, and you can download it as a Progressive Web App \(PWA\) for offline use\. The editor preserves publicly accessible images and integrates AI assistance while keeping your content private and secure\.
+This profile was created using Mark↓ - a local-first, privacy-focused document editor that runs entirely in your browser. Everything you write is saved locally on your device, and you can download it as a Progressive Web App (PWA) for offline use. The editor preserves publicly accessible images and integrates AI assistance while keeping your content private and secure.
 
 -Kai Kleinbard
 

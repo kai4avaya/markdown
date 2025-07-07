@@ -41,11 +41,15 @@ export class IndexedDBService {
 
     // Save a markdown file to IndexedDB
     async saveFile(fileName, content, directoryName = '') {
+        console.log('[IndexedDB] saveFile called with:', { fileName, contentLength: content.length, directoryName });
+        
         if (!this.db) {
+            console.log('[IndexedDB] Database not initialized, initializing...');
             await this.initialize();
         }
 
         return new Promise((resolve, reject) => {
+            console.log('[IndexedDB] Creating transaction for:', fileName);
             const transaction = this.db.transaction([this.storeName], 'readwrite');
             const store = transaction.objectStore(this.storeName);
             
@@ -56,16 +60,26 @@ export class IndexedDBService {
                 lastModified: new Date().toISOString(),
                 size: content.length
             };
-
+            
+            console.log('[IndexedDB] Saving file data:', fileData);
             const request = store.put(fileData);
 
             request.onsuccess = () => {
+                console.log('[IndexedDB] File saved successfully:', fileName);
                 resolve(fileData);
             };
 
             request.onerror = () => {
-                console.error('Error saving file to IndexedDB:', request.error);
+                console.error('[IndexedDB] Error saving file:', fileName, request.error);
                 reject(request.error);
+            };
+            
+            transaction.oncomplete = () => {
+                console.log('[IndexedDB] Transaction completed for:', fileName);
+            };
+            
+            transaction.onerror = () => {
+                console.error('[IndexedDB] Transaction error for:', fileName, transaction.error);
             };
         });
     }

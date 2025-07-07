@@ -1,6 +1,67 @@
 // PDF Export functionality for AI Textbook Editor
 // Handles markdown to PDF conversion with image support
-// Requires jsPDF (add CDN to index.html if not present)
+// Dynamically loads jsPDF when needed
+
+let jsPDFLoaded = false;
+let jsPDFLoading = false;
+let jsPDFLoadPromise = null;
+
+/**
+ * Dynamically load jsPDF library
+ * @returns {Promise} Promise that resolves when jsPDF is loaded
+ */
+async function loadJsPDF() {
+    if (jsPDFLoaded) {
+        return Promise.resolve();
+    }
+    
+    if (jsPDFLoading) {
+        return jsPDFLoadPromise;
+    }
+    
+    jsPDFLoading = true;
+    jsPDFLoadPromise = new Promise((resolve, reject) => {
+        // Check if jsPDF is already available (in case it was loaded elsewhere)
+        if (window.jsPDF) {
+            jsPDFLoaded = true;
+            jsPDFLoading = false;
+            resolve();
+            return;
+        }
+        
+        // Create script element to load jsPDF
+        const script = document.createElement('script');
+        script.src = 'lib/js/jspdf.debug.js';
+        script.async = true;
+        
+        script.onload = () => {
+            jsPDFLoaded = true;
+            jsPDFLoading = false;
+            console.log('[PDF Export] jsPDF loaded successfully');
+            
+            // Cache the jsPDF file in service worker if available
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({
+                    type: 'CACHE_FILE',
+                    url: 'lib/js/jspdf.debug.js'
+                });
+            }
+            
+            resolve();
+        };
+        
+        script.onerror = () => {
+            jsPDFLoading = false;
+            console.error('[PDF Export] Failed to load jsPDF');
+            reject(new Error('Failed to load jsPDF library. Please check your internet connection.'));
+        };
+        
+        // Add script to document head
+        document.head.appendChild(script);
+    });
+    
+    return jsPDFLoadPromise;
+}
 
 /**
  * Export markdown content to PDF (basic formatting, images supported)
@@ -13,138 +74,156 @@ export async function exportToPDF(content, filename = 'document') {
         return;
     }
 
-    const doc = new window.jsPDF();
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const pageHeight = doc.internal.pageSize.getHeight();
-    const margins = { top: 20, left: 20, right: 20, bottom: 20 };
-    const maxWidth = pageWidth - margins.left - margins.right;
-    let y = margins.top;
-    const lineHeight = 6;
-
-    // Split content into lines and process markdown
-    const lines = content.split('\n');
-
-    for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        // Check if we need a new page
-        if (y > pageHeight - margins.bottom - 20) {
-            doc.addPage();
-            y = margins.top;
+    try {
+        // Show loading message if jsPDF needs to be loaded
+        if (!jsPDFLoaded && !jsPDFLoading) {
+            console.log('[PDF Export] Loading jsPDF library...');
         }
-        // Handle different markdown elements
-        if (line.startsWith('# ')) {
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(18);
-            doc.setFont(undefined, 'bold');
-            let text = line.substring(2);
-            text = text.replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '');
-            const wrappedText = doc.splitTextToSize(text, maxWidth);
-            doc.text(wrappedText, margins.left, y);
-            y += wrappedText.length * lineHeight * 1.5;
-        } else if (line.startsWith('## ')) {
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(14);
-            doc.setFont(undefined, 'bold');
-            let text = line.substring(3);
-            text = text.replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '');
-            const wrappedText = doc.splitTextToSize(text, maxWidth);
-            doc.text(wrappedText, margins.left, y);
-            y += wrappedText.length * lineHeight * 1.3;
-        } else if (line.startsWith('### ')) {
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(12);
-            doc.setFont(undefined, 'bold');
-            let text = line.substring(4);
-            text = text.replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '');
-            const wrappedText = doc.splitTextToSize(text, maxWidth);
-            doc.text(wrappedText, margins.left, y);
-            y += wrappedText.length * lineHeight * 1.2;
-        } else if (line.startsWith('- ') || line.startsWith('* ')) {
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            doc.setFont(undefined, 'normal');
-            const text = '• ' + line.substring(2);
-            const wrappedText = doc.splitTextToSize(text, maxWidth - 10);
-            doc.text(wrappedText, margins.left + 10, y);
-            y += wrappedText.length * lineHeight;
-        } else if (line.match(/^\d+\. /)) {
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            doc.setFont(undefined, 'normal');
-            const wrappedText = doc.splitTextToSize(line, maxWidth - 10);
-            doc.text(wrappedText, margins.left + 10, y);
-            y += wrappedText.length * lineHeight;
-        } else if (line.startsWith('> ')) {
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            doc.setFont(undefined, 'italic');
-            const text = line.substring(2);
-            const wrappedText = doc.splitTextToSize(text, maxWidth - 20);
-            doc.text(wrappedText, margins.left + 20, y);
-            y += wrappedText.length * lineHeight;
-        } else if (line.startsWith('```') || line.startsWith('~~~')) {
-            y += lineHeight * 0.5;
-        } else if (line.trim() === '') {
-            y += lineHeight;
-        } else if (line.match(/!\[([^\]]*)\]\(([^)]+)\)/)) {
-            // Image handling: ![alt text](url)
-            const imageMatch = line.match(/!\[([^\]]*)\]\(([^)]+)\)/);
-            const altText = imageMatch[1] || 'Image';
-            const imageUrl = imageMatch[2];
-            try {
-                const imageData = await loadImageAsBase64(imageUrl);
-                if (imageData) {
-                    const imageHeight = 60;
-                    if (y + imageHeight > pageHeight - margins.bottom) {
-                        doc.addPage();
-                        y = margins.top;
-                    }
-                    const imageWidth = Math.min(maxWidth, 100);
-                    doc.addImage(imageData, 'JPEG', margins.left, y, imageWidth, imageHeight);
-                    y += imageHeight + 10;
-                    if (altText) {
+        
+        // Load jsPDF if not already loaded
+        await loadJsPDF();
+        
+        // Verify jsPDF is available
+        if (!window.jsPDF) {
+            throw new Error('jsPDF library not available');
+        }
+
+        const doc = new window.jsPDF();
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const margins = { top: 20, left: 20, right: 20, bottom: 20 };
+        const maxWidth = pageWidth - margins.left - margins.right;
+        let y = margins.top;
+        const lineHeight = 6;
+
+        // Split content into lines and process markdown
+        const lines = content.split('\n');
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            // Check if we need a new page
+            if (y > pageHeight - margins.bottom - 20) {
+                doc.addPage();
+                y = margins.top;
+            }
+            // Handle different markdown elements
+            if (line.startsWith('# ')) {
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(18);
+                doc.setFont(undefined, 'bold');
+                let text = line.substring(2);
+                text = text.replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '');
+                const wrappedText = doc.splitTextToSize(text, maxWidth);
+                doc.text(wrappedText, margins.left, y);
+                y += wrappedText.length * lineHeight * 1.5;
+            } else if (line.startsWith('## ')) {
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(14);
+                doc.setFont(undefined, 'bold');
+                let text = line.substring(3);
+                text = text.replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '');
+                const wrappedText = doc.splitTextToSize(text, maxWidth);
+                doc.text(wrappedText, margins.left, y);
+                y += wrappedText.length * lineHeight * 1.3;
+            } else if (line.startsWith('### ')) {
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'bold');
+                let text = line.substring(4);
+                text = text.replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '');
+                const wrappedText = doc.splitTextToSize(text, maxWidth);
+                doc.text(wrappedText, margins.left, y);
+                y += wrappedText.length * lineHeight * 1.2;
+            } else if (line.startsWith('- ') || line.startsWith('* ')) {
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                const text = '• ' + line.substring(2);
+                const wrappedText = doc.splitTextToSize(text, maxWidth - 10);
+                doc.text(wrappedText, margins.left + 10, y);
+                y += wrappedText.length * lineHeight;
+            } else if (line.match(/^\d+\. /)) {
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                const wrappedText = doc.splitTextToSize(line, maxWidth - 10);
+                doc.text(wrappedText, margins.left + 10, y);
+                y += wrappedText.length * lineHeight;
+            } else if (line.startsWith('> ')) {
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'italic');
+                const text = line.substring(2);
+                const wrappedText = doc.splitTextToSize(text, maxWidth - 20);
+                doc.text(wrappedText, margins.left + 20, y);
+                y += wrappedText.length * lineHeight;
+            } else if (line.startsWith('```') || line.startsWith('~~~')) {
+                y += lineHeight * 0.5;
+            } else if (line.trim() === '') {
+                y += lineHeight;
+            } else if (line.match(/!\[([^\]]*)\]\(([^)]+)\)/)) {
+                // Image handling: ![alt text](url)
+                const imageMatch = line.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+                const altText = imageMatch[1] || 'Image';
+                const imageUrl = imageMatch[2];
+                try {
+                    const imageData = await loadImageAsBase64(imageUrl);
+                    if (imageData) {
+                        const imageHeight = 60;
+                        if (y + imageHeight > pageHeight - margins.bottom) {
+                            doc.addPage();
+                            y = margins.top;
+                        }
+                        const imageWidth = Math.min(maxWidth, 100);
+                        doc.addImage(imageData, 'JPEG', margins.left, y, imageWidth, imageHeight);
+                        y += imageHeight + 10;
+                        if (altText) {
+                            doc.setFont('helvetica', 'normal');
+                            doc.setFontSize(8);
+                            doc.setFont(undefined, 'italic');
+                            doc.text(`Figure: ${altText}`, margins.left, y);
+                            y += lineHeight;
+                        }
+                    } else {
                         doc.setFont('helvetica', 'normal');
-                        doc.setFontSize(8);
-                        doc.setFont(undefined, 'italic');
-                        doc.text(`Figure: ${altText}`, margins.left, y);
+                        doc.setFontSize(10);
+                        doc.setFont(undefined, 'normal');
+                        doc.text(`[Image: ${altText}]`, margins.left, y);
                         y += lineHeight;
                     }
-                } else {
+                } catch (error) {
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(10);
                     doc.setFont(undefined, 'normal');
                     doc.text(`[Image: ${altText}]`, margins.left, y);
                     y += lineHeight;
                 }
-            } catch (error) {
+            } else {
                 doc.setFont('helvetica', 'normal');
                 doc.setFontSize(10);
                 doc.setFont(undefined, 'normal');
-                doc.text(`[Image: ${altText}]`, margins.left, y);
-                y += lineHeight;
+                let processedLine = line;
+                processedLine = processedLine.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+                processedLine = processedLine.replace(/\*\*([^*]+)\*\*/g, '$1');
+                processedLine = processedLine.replace(/\*([^*]+)\*/g, '$1');
+                processedLine = processedLine.replace(/__([^_]+)__/g, '$1');
+                processedLine = processedLine.replace(/_([^_]+)_/g, '$1');
+                processedLine = processedLine.replace(/`([^`]+)`/g, '$1');
+                if (processedLine.trim()) {
+                    // Remove emojis that can't render in PDF
+                    processedLine = processedLine.replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '');
+                    const wrappedText = doc.splitTextToSize(processedLine, maxWidth);
+                    doc.text(wrappedText, margins.left, y);
+                    y += wrappedText.length * lineHeight;
+                }
             }
-        } else {
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            doc.setFont(undefined, 'normal');
-            let processedLine = line;
-            processedLine = processedLine.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
-            processedLine = processedLine.replace(/\*\*([^*]+)\*\*/g, '$1');
-            processedLine = processedLine.replace(/\*([^*]+)\*/g, '$1');
-            processedLine = processedLine.replace(/__([^_]+)__/g, '$1');
-            processedLine = processedLine.replace(/_([^_]+)_/g, '$1');
-            processedLine = processedLine.replace(/`([^`]+)`/g, '$1');
-            if (processedLine.trim()) {
-                // Remove emojis that can't render in PDF
-                processedLine = processedLine.replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '');
-                const wrappedText = doc.splitTextToSize(processedLine, maxWidth);
-                doc.text(wrappedText, margins.left, y);
-                y += wrappedText.length * lineHeight;
-            }
+            y += 2;
         }
-        y += 2;
+        doc.save(filename + '.pdf');
+    } catch (error) {
+        console.error('[PDF Export] Error exporting to PDF:', error);
+        alert(`Failed to export PDF: ${error.message}`);
     }
-    doc.save(filename + '.pdf');
 }
 
 // Helper function to load image as base64

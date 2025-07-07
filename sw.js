@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ai-textbook-editor-v1';
+const CACHE_NAME = 'ai-textbook-editor-v2';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -60,4 +60,20 @@ self.addEventListener('activate', event => {
       );
     })
   );
+});
+
+// Handle messages from the main thread (for dynamic caching)
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'CACHE_FILE') {
+    event.waitUntil(
+      caches.open(CACHE_NAME)
+        .then(cache => {
+          console.log('Caching file:', event.data.url);
+          return cache.add(event.data.url);
+        })
+        .catch(error => {
+          console.error('Failed to cache file:', event.data.url, error);
+        })
+    );
+  }
 }); 

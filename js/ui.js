@@ -116,6 +116,34 @@ export class UI {
 
     // Toast notification system
     showToast(message, type = CONFIG.MESSAGE_TYPES.SUCCESS) {
+        // Check if we're in mobile mode
+        if (window.innerWidth <= 768 && document.getElementById('mobile-slideup-panel')) {
+            // Use mobile toast
+            let toast = document.getElementById('mobile-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'mobile-toast';
+                document.body.appendChild(toast);
+            }
+            
+            toast.textContent = message;
+            toast.className = 'fixed top-5 left-1/2 transform -translate-x-1/2 text-white py-2 px-4 rounded-lg shadow-xl z-[200] transition-opacity duration-300';
+            
+            if (type === CONFIG.MESSAGE_TYPES.ERROR) {
+                toast.classList.add('bg-red-500');
+            } else {
+                toast.classList.add('bg-green-500');
+            }
+            
+            toast.style.opacity = '1';
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 3000);
+            return;
+        }
+        
+        // Desktop toast
         this.toast.textContent = message;
         this.toast.className = 'fixed bottom-5 right-5 text-white py-2 px-4 rounded-lg shadow-xl opacity-0 transform translate-y-2 transition-all duration-300';
         

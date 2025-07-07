@@ -26,18 +26,21 @@ Projects focused on the research, development, and application of advanced AI an
 ### QuArch ◪
 
 **Qu**estion-Answering for Computer **Arch**itecture\*—Community driven dataset to train LLMs on Computer Systems Architecture and Design\*
+
 ![Quarch](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/quarch.png)
 A collaboration with Harvard Edge Computing, Quarch is an international, community-driven dataset where multiple AIs compete to solve user-submitted questions. The platform is designed to train and benchmark ML systems, computer chips, and edge AI. [View Project](https://quarch.ai/)
 
 ### ML Systems Book ◪
 
 *A digital companion to machine learning systems—streamlining concepts and frameworks.*
+
 ![ML Systems Book](https://raw.githubusercontent.com/kai4avaya/markdown/master/images/mlsysbook2.png)
 An open-source textbook from the Harvard Edge AI lab featuring "Socratiq AI," a local-first AI teaching assistant embedded in the book. This work explores efficient in-browser embedding algorithms. [Visit Site](https://mlsysbook.ai/) \| [Read Paper](https://arxiv.org/abs/2502.00341) \| [TensorFlow Blog](https://blog.tensorflow.org/2024/11/mlsysbookai-principles-and-practices-of-machine-learning-systems-engineering.html)
 
 ### RWEFCKED ◪
 
 *How does the state of democracy look to multiple LLMs?*
+
 ![RWEFCKED](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/rwefcked.png)
 This project uses AI to track news and visualize data related to democratic health. LLMs can rank the state of democracy based on Democracy US news, creating a visual analysis of digital and political vulnerabilities. [View Project](https://rwefcked.vercel.app/)
 
@@ -64,24 +67,28 @@ Lumi is an innovative notetaking app that leverages 3-dimensional space to visua
 ### Grid2Web ◙
 
 *Transforming infinite spatial grids into interactive, AI-powered web canvases.*
+
 ![Grid2Web](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/grid2web.png)
 An AI-powered tool that transforms any website into various grid systems to teach web design principles. It allows users to learn through deconstruction and use AI to generate and edit new designs. [View Project](https://heartfelt-gecko-17747d.netlify.app/)
 
 ### Scratchpad ◙
 
 *A vector graphics sketchpad for AI-powered diagramming.*
+
 ![Scratchpad](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/73631e623193104e372433ed34336b75d8c28692/images/simple_sketch.png)
 A tool for sketching with vector graphics, allowing users to share creations and use AI to generate diagrams from text prompts. It operates on a JSON-based canvas, similar to Excalidraw or Mermaid.js. [View Project](#)
 
 ### Movement Analysis ◙
 
 *Visualizing pose data to understand movement and behavior patterns.*
+
 ![Movement Analysis](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/movement_analysis.png)
 This application uses AI pose tracking to help users learn physical movements, track posture, and even automatically generate music based on their body motion, blending wellness with creative expression. [View Project](https://tranquil-alpaca-403967.netlify.app/)
 
 ### EmbodiedLearner ◙
 
 *Deep Research honed to support parents and caregivers of neurodiverse people.*
+
 ![Somtatkai](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/somtatkai.png)
 A free AI resource designed to assist learners with ADHD. The platform provides mindfulness tools and leverages deep research into specialized AI search to create a more focused learning environment. [View Project](https://embodiedlearner.com/)
 
@@ -94,6 +101,7 @@ Exploring the intersection of decentralized technology and digital creativity to
 ### Algorand ▨
 
 *Building decentralized solutions atop Algorand’s secure blockchain protocol.*
+
 ![Algorand Project](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/algorand.png)
 This project leverages the Algorand network for generative art, algorithmically creating unique ink paintings. The resulting artworks are minted and published on-chain as verifiable NFTs.
 
@@ -103,6 +111,7 @@ This project leverages the Algorand network for generative art, algorithmically 
 ## Past Portfolio ■
 
 *A curated portfolio showcasing innovative applications and design intuition.*
+
 ![Portfolio](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/portfolio.png)
 An archival version of my personal portfolio from the pre-ChatGPT era, showcasing foundational skills in web development, UI/UX, and innovative application design. [View Project](https://portfolio-kai-kleinbard-sand.vercel.app/graph)
 
@@ -112,7 +121,8 @@ This profile was created using Mark↓ - a local-first, privacy-focused document
 
 -Kai Kleinbard
 
-* [Email me](mailto:bakuk@gmail.com)`;
+* Say Hello! [bakukai@gmail.com](mailto:bakukai@gmail.com)
+* Connect with me [linkedin](https://www.linkedin.com/in/kai-kleinbard)`;
 
 // Quick Start Guide - Markdown Content
 const QUICK_START_MARKDOWN = `# Quick Start Guide - AI Textbook Editor

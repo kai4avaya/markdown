@@ -26,6 +26,15 @@ function activateMobileUI() {
     console.log('[MobileUI] Sidebar hidden');
     observeSidebar();
   }
+  
+  // Limit editor height to prevent stretching into slide panel area
+  const editorContainer = document.getElementById('editor');
+  if (editorContainer) {
+    const vh = window.innerHeight;
+    const maxHeight = vh * 0.90; // 85% minus small buffer
+    editorContainer.style.maxHeight = `${maxHeight}px`;
+    editorContainer.style.height = `${maxHeight}px`;
+  }
   if (document.getElementById('mobile-slideup-panel')) {
     console.log('[MobileUI] Mobile panel already exists');
     return;
@@ -115,10 +124,28 @@ function activateMobileUI() {
       const filesPanel = document.getElementById('files-panel');
       content = filesPanel ? filesPanel.innerHTML : '<div>Files not available</div>';
       tabContent.innerHTML = content;
+      // Rebind file click handlers for mobile
+      tabContent.querySelectorAll('.list-item').forEach(fileItem => {
+        fileItem.addEventListener('click', () => {
+          const fileName = fileItem.dataset.fileName;
+          if (fileName) {
+            import('./fileSystem.js').then(({ fileSystem }) => {
+              fileSystem.openFile(fileName, fileItem);
+            });
+            showMobileToast(`Opening: ${fileName}`);
+          }
+        });
+      });
     } else if (tab === 'outline') {
       const outlinePanel = document.getElementById('outline-panel');
       content = outlinePanel ? outlinePanel.innerHTML : '<div>Outline not available</div>';
       tabContent.innerHTML = content;
+      // Rebind outline click handlers for mobile
+      import('./outlineTree.js').then(({ outlineTree }) => {
+        if (outlineTree && outlineTree.rebindMobileEvents) {
+          outlineTree.rebindMobileEvents(tabContent);
+        }
+      });
     } else if (tab === 'ai') {
       const aiPanel = document.getElementById('ai-panel');
       content = aiPanel ? aiPanel.innerHTML : '<div>AI not available</div>';
@@ -165,6 +192,31 @@ function activateMobileUI() {
     }
     console.log(`[MobileUI] Switched to tab: ${tab}`);
   }
+
+  // Mobile-specific toast notification
+  function showMobileToast(message, type = 'success') {
+    let toast = document.getElementById('mobile-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'mobile-toast';
+      document.body.appendChild(toast);
+    }
+    
+    toast.textContent = message;
+    toast.className = 'fixed top-5 left-1/2 transform -translate-x-1/2 text-white py-2 px-4 rounded-lg shadow-xl z-[200] transition-opacity duration-300';
+    
+    if (type === 'error') {
+      toast.classList.add('bg-red-500');
+    } else {
+      toast.classList.add('bg-green-500');
+    }
+    
+    toast.style.opacity = '1';
+    
+    setTimeout(() => {
+      toast.style.opacity = '0';
+    }, 3000);
+  }
   mobilePanel.querySelectorAll('.mobile-tab').forEach(btn => {
     btn.addEventListener('click', e => {
       mobilePanel.querySelectorAll('.mobile-tab').forEach(b => b.style.fontWeight = '500');
@@ -188,6 +240,14 @@ function deactivateMobileUI() {
     sidebar.style.display = '';
     console.log('[MobileUI] Sidebar restored');
   }
+  
+  // Remove height restrictions from editor
+  const editorContainer = document.getElementById('editor');
+  if (editorContainer) {
+    editorContainer.style.maxHeight = '';
+    editorContainer.style.height = '100%';
+  }
+  
   if (sidebarObserver) sidebarObserver.disconnect();
 }
 

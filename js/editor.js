@@ -136,9 +136,23 @@ export class Editor {
                         ['table', 'image', 'link'],
                         ['code', 'codeblock'],
                         [{
-                            el: this.createButton('open-folder', 'Open Folder', () => fileSystem.openFolder())
+                            el: this.createButton('open-folder', 'Open Folder', async () => {
+                                try {
+                                    await fileSystem.openFolder();
+                                    ui.showToast('Folder opened successfully');
+                                } catch (error) {
+                                    ui.showToast('Failed to open folder', CONFIG.MESSAGE_TYPES.ERROR);
+                                }
+                            })
                         }, {
-                            el: this.createButton('new-file', 'New File', () => fileSystem.createNewFileDialog())
+                            el: this.createButton('new-file', 'New File', async () => {
+                                try {
+                                    await fileSystem.createNewFileDialog();
+                                    ui.showToast('New file created');
+                                } catch (error) {
+                                    ui.showToast('Failed to create new file', CONFIG.MESSAGE_TYPES.ERROR);
+                                }
+                            })
                         }, {
                             el: this.createButton('share-file', 'Share', () => this.shareFile())
                         }, {
@@ -225,19 +239,15 @@ export class Editor {
                 const format = option.dataset.format;
                 if (format === 'pdf') {
                     // PDF export
-                    if (window.jsPDF) {
-                        const editor = appState.getEditor();
-                        const content = editor ? editor.getMarkdown() : '';
-                        const currentFileHandle = appState.getCurrentFileHandle();
-                        let fileName = 'document';
-                        if (currentFileHandle && currentFileHandle.name) {
-                            fileName = currentFileHandle.name.replace(/\.[^/.]+$/, '');
-                        }
-                        await exportToPDF(content, fileName);
-                        ui.showToast(`Downloaded: ${fileName}.pdf`);
-                    } else {
-                        ui.showToast('PDF export requires jsPDF. Please check your internet connection.', CONFIG.MESSAGE_TYPES.ERROR);
+                    const editor = appState.getEditor();
+                    const content = editor ? editor.getMarkdown() : '';
+                    const currentFileHandle = appState.getCurrentFileHandle();
+                    let fileName = 'document';
+                    if (currentFileHandle && currentFileHandle.name) {
+                        fileName = currentFileHandle.name.replace(/\.[^/.]+$/, '');
                     }
+                    await exportToPDF(content, fileName);
+                    ui.showToast(`Downloaded: ${fileName}.pdf`);
                 } else if (format === 'html') {
                     // HTML export
                     const editor = appState.getEditor();

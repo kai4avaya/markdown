@@ -25,7 +25,7 @@ Projects focused on the research, development, and application of advanced AI an
 
 ### QuArch ◪
 
-**Qu**estion-Answering for Computer **Arch**itecture*—Community driven dataset to train LLMs on Computer Systems Architecture and Design*
+**Qu**estion-Answering for Computer **Arch**itecture\*—Community driven dataset to train LLMs on Computer Systems Architecture and Design\*
 
 ![Quarch](https://proxy-worker.proxy-kai.workers.dev/image/edit?url=https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/quarch.png&quality=0.7&format=webp)
 A collaboration with Harvard Edge Computing, Quarch is an international, community-driven dataset where multiple AIs compete to solve user-submitted questions. The platform is designed to train and benchmark ML systems, computer chips, and edge AI. [View QuArch](https://quarch.ai/)
@@ -35,7 +35,7 @@ A collaboration with Harvard Edge Computing, Quarch is an international, communi
 *A digital companion to machine learning systems—streamlining concepts and frameworks.*
 
 ![ML Systems Book](https://proxy-worker.proxy-kai.workers.dev/image/edit?url=https://raw.githubusercontent.com/kai4avaya/markdown/master/images/mlsysbook2.png&quality=0.7&format=webp)
-An open-source textbook from the Harvard Edge AI lab featuring "Socratiq AI," a local-first AI teaching assistant embedded in the book. This work explores efficient in-browser embedding algorithms. [Visit Site](https://mlsysbook.ai/) | [Read Paper](https://arxiv.org/abs/2502.00341) | [TensorFlow Blog](https://blog.tensorflow.org/2024/11/mlsysbookai-principles-and-practices-of-machine-learning-systems-engineering.html)
+An open-source textbook from the Harvard Edge AI lab featuring "Socratiq AI," a local-first AI teaching assistant embedded in the book. This work explores efficient in-browser embedding algorithms. [Visit Site](https://mlsysbook.ai/) \| [Read Paper](https://arxiv.org/abs/2502.00341) \| [TensorFlow Blog](https://blog.tensorflow.org/2024/11/mlsysbookai-principles-and-practices-of-machine-learning-systems-engineering.html)
 
 ### RWEFCKED ◪
 
@@ -61,7 +61,6 @@ An EdTech platform that uses AI to summarize documents and generate quizzes. It 
 *Your information in three dimensional space.*
 
 ![Two documents and their connections in Lumi](https://proxy-worker.proxy-kai.workers.dev/image/edit?url=https://raw.githubusercontent.com/kai4avaya/markdown/master/images/lumi.png&quality=0.7&format=webp)
-
 Lumi is an innovative notetaking app that leverages 3-dimensional space to visually represent the relationships between documents. Unlike traditional tools, Lumi lets you navigate and explore your ideas spatially, making connections more intuitive and discoverable. AI is deeply integrated—not only can Lumi analyze your notes and suggest links, but it also assists in the writing process itself. All intelligence happens locally in your browser, including the generation of embeddings and summaries, ensuring privacy and speed. You have the flexibility to use your own API key for AI features or rely on the default. Lumi is free to use, open source, and designed with a “local first” philosophy so your data remains under your control. [Visit Lumi](https://bluestyles--lumi-peer-share.netlify.app/)
 
 ### Grid2Web ◙
@@ -103,7 +102,7 @@ Exploring the intersection of decentralized technology and digital creativity to
 *Building decentralized solutions atop Algorand’s secure blockchain protocol.*
 
 ![Algorand Project](https://proxy-worker.proxy-kai.workers.dev/image/edit?url=https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/algorand.png&quality=0.7&format=webp)
-This project leverages the Algorand network for generative art, algorithmically creating unique ink paintings. The resulting artworks are minted and published on-chain as verifiable NFTs.  [Vist Algorand Ink Painting](https://spontaneous-lolly-f88c10.netlify.app/)
+This project leverages the Algorand network for generative art, algorithmically creating unique ink paintings. The resulting artworks are minted and published on-chain as verifiable NFTs. [Vist Algorand Ink Painting](https://spontaneous-lolly-f88c10.netlify.app/)
 
 ***
 

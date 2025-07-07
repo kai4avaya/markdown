@@ -28,7 +28,7 @@ Projects focused on the research, development, and application of advanced AI an
 **Qu**estion-Answering for Computer **Arch**itecture\*—Community driven dataset to train LLMs on Computer Systems Architecture and Design\*
 
 ![Quarch](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/quarch.png)
-A collaboration with Harvard Edge Computing, Quarch is an international, community-driven dataset where multiple AIs compete to solve user-submitted questions. The platform is designed to train and benchmark ML systems, computer chips, and edge AI. [View Project](https://quarch.ai/)
+A collaboration with Harvard Edge Computing, Quarch is an international, community-driven dataset where multiple AIs compete to solve user-submitted questions. The platform is designed to train and benchmark ML systems, computer chips, and edge AI. [View QuArch](https://quarch.ai/)
 
 ### ML Systems Book ◪
 
@@ -42,7 +42,7 @@ An open-source textbook from the Harvard Edge AI lab featuring "Socratiq AI," a 
 *How does the state of democracy look to multiple LLMs?*
 
 ![RWEFCKED](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/rwefcked.png)
-This project uses AI to track news and visualize data related to democratic health. LLMs can rank the state of democracy based on Democracy US news, creating a visual analysis of digital and political vulnerabilities. [View Project](https://rwefcked.vercel.app/)
+This project uses AI to track news and visualize data related to democratic health. LLMs can rank the state of democracy based on Democracy US news, creating a visual analysis of digital and political vulnerabilities. [View RWEFCKED ](https://rwefcked.vercel.app/)
 
 ***
 
@@ -54,7 +54,7 @@ Tools that leverage technology to create more effective, engaging, and accessibl
 
 *Enabling fluid interaction across decentralized systems with the Flowt dashboard.*
 ![Flowt Project](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/flowt.png)
-An EdTech platform that uses AI to summarize documents and generate quizzes. It features a gamified system for tracking focus and earning rewards to enhance learning and motivation. [View Project](https://flowt-notes.netlify.app/)
+An EdTech platform that uses AI to summarize documents and generate quizzes. It features a gamified system for tracking focus and earning rewards to enhance learning and motivation. [View Flowt](https://flowt-notes.netlify.app/)
 
 ### Lumi ◙
 
@@ -62,35 +62,35 @@ An EdTech platform that uses AI to summarize documents and generate quizzes. It 
 
 ![Two documents and their connections in Lumi](https://raw.githubusercontent.com/kai4avaya/markdown/master/images/lumi.png)
 
-Lumi is an innovative notetaking app that leverages 3-dimensional space to visually represent the relationships between documents. Unlike traditional tools, Lumi lets you navigate and explore your ideas spatially, making connections more intuitive and discoverable. AI is deeply integrated—not only can Lumi analyze your notes and suggest links, but it also assists in the writing process itself. All intelligence happens locally in your browser, including the generation of embeddings and summaries, ensuring privacy and speed. You have the flexibility to use your own API key for AI features or rely on the default. Lumi is free to use, open source, and designed with a “local first” philosophy so your data remains under your control.
+Lumi is an innovative notetaking app that leverages 3-dimensional space to visually represent the relationships between documents. Unlike traditional tools, Lumi lets you navigate and explore your ideas spatially, making connections more intuitive and discoverable. AI is deeply integrated—not only can Lumi analyze your notes and suggest links, but it also assists in the writing process itself. All intelligence happens locally in your browser, including the generation of embeddings and summaries, ensuring privacy and speed. You have the flexibility to use your own API key for AI features or rely on the default. Lumi is free to use, open source, and designed with a “local first” philosophy so your data remains under your control. [Visit Lumi](https://bluestyles--lumi-peer-share.netlify.app/)
 
 ### Grid2Web ◙
 
 *Transforming infinite spatial grids into interactive, AI-powered web canvases.*
 
 ![Grid2Web](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/grid2web.png)
-An AI-powered tool that transforms any website into various grid systems to teach web design principles. It allows users to learn through deconstruction and use AI to generate and edit new designs. [View Project](https://heartfelt-gecko-17747d.netlify.app/)
+An AI-powered tool that transforms any website into various grid systems to teach web design principles. It allows users to learn through deconstruction and use AI to generate and edit new designs. [View Grid2Web](https://heartfelt-gecko-17747d.netlify.app/)
 
 ### Scratchpad ◙
 
 *A vector graphics sketchpad for AI-powered diagramming.*
 
 ![Scratchpad](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/73631e623193104e372433ed34336b75d8c28692/images/simple_sketch.png)
-A tool for sketching with vector graphics, allowing users to share creations and use AI to generate diagrams from text prompts. It operates on a JSON-based canvas, similar to Excalidraw or Mermaid.js. [View Project](#)
+A tool for sketching with vector graphics, allowing users to share creations and use AI to generate diagrams from text prompts. It operates on a JSON-based canvas, similar to Excalidraw or Mermaid.js. [View Scratchpad](#)
 
-### Movement Analysis ◙
+### Somatikai ◙
 
 *Visualizing pose data to understand movement and behavior patterns.*
 
 ![Movement Analysis](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/movement_analysis.png)
-This application uses AI pose tracking to help users learn physical movements, track posture, and even automatically generate music based on their body motion, blending wellness with creative expression. [View Project](https://tranquil-alpaca-403967.netlify.app/)
+This application uses AI pose tracking to help users learn physical movements, track posture, and even automatically generate music based on their body motion, blending wellness with creative expression. [View Somatikai](https://tranquil-alpaca-403967.netlify.app/)
 
-### EmbodiedLearner ◙
+### Embodied Learner ◙
 
 *Deep Research honed to support parents and caregivers of neurodiverse people.*
 
 ![Somtatkai](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/somtatkai.png)
-A free AI resource designed to assist learners with ADHD. The platform provides mindfulness tools and leverages deep research into specialized AI search to create a more focused learning environment. [View Project](https://embodiedlearner.com/)
+A free AI resource designed to assist learners with ADHD. The platform provides mindfulness tools and leverages deep research into specialized AI search to create a more focused learning environment. [View Emboedied Learner](https://embodiedlearner.com/)
 
 ***
 
@@ -98,12 +98,12 @@ A free AI resource designed to assist learners with ADHD. The platform provides 
 
 Exploring the intersection of decentralized technology and digital creativity to produce unique, verifiable art.
 
-### Algorand ▨
+### Algorand Ink Painting▨
 
 *Building decentralized solutions atop Algorand’s secure blockchain protocol.*
 
 ![Algorand Project](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/algorand.png)
-This project leverages the Algorand network for generative art, algorithmically creating unique ink paintings. The resulting artworks are minted and published on-chain as verifiable NFTs.
+This project leverages the Algorand network for generative art, algorithmically creating unique ink paintings. The resulting artworks are minted and published on-chain as verifiable NFTs.  [Vist Algorand Ink Painting](https://spontaneous-lolly-f88c10.netlify.app/)
 
 ***
 
@@ -113,7 +113,7 @@ This project leverages the Algorand network for generative art, algorithmically 
 *A curated portfolio showcasing innovative applications and design intuition.*
 
 ![Portfolio](https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/portfolio.png)
-An archival version of my personal portfolio from the pre-ChatGPT era, showcasing foundational skills in web development, UI/UX, and innovative application design. [View Project](https://portfolio-kai-kleinbard-sand.vercel.app/graph)
+An archival version of my personal portfolio from the pre-ChatGPT era, showcasing foundational skills in web development, UI/UX, and innovative application design. [View Past Portfolio](https://portfolio-kai-kleinbard-sand.vercel.app/graph)
 
 ## About This AI Editor
 

@@ -89,7 +89,7 @@ This application uses AI pose tracking to help users learn physical movements, t
 *Deep Research honed to support parents and caregivers of neurodiverse people.*
 
 ![Somtatkai](https://proxy-worker.proxy-kai.workers.dev/image/edit?url=https://raw.githubusercontent.com/kai4avaya/portfolio-kai-kleinbard-2025/7440274865b9cbf416220e3c5dc4a3d7c413f4d5/images/somtatkai.png&quality=0.7&format=webp)
-A free AI resource designed to assist learners with ADHD. The platform provides mindfulness tools and leverages deep research into specialized AI search to create a more focused learning environment. [View Emboedied Learner](https://embodiedlearner.com/)
+A free AI resource designed to assist learners with ADHD. The platform provides mindfulness tools and leverages deep research into specialized AI search to create a more focused learning environment. [View Embodied Learner](https://embodiedlearner.com/)
 
 ***
 

@@ -208,7 +208,7 @@ export class Editor {
         
         // Create dropdown menu
         const dropdown = document.createElement('div');
-        dropdown.className = 'download-dropdown bg-white border border-gray-300 rounded-md shadow-lg hidden';
+        dropdown.className = 'download-dropdown absolute top-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg hidden z-50';
         dropdown.innerHTML = `
             <div class="download-options-list py-1">
                 <button class="download-option w-full text-left px-4 py-2 text-sm hover:bg-gray-100" data-format="md">
@@ -230,6 +230,21 @@ export class Editor {
         button.addEventListener('click', (e) => {
             e.stopPropagation();
             dropdown.classList.toggle('hidden');
+            
+            // Position dropdown to avoid viewport overflow
+            if (!dropdown.classList.contains('hidden')) {
+                const rect = container.getBoundingClientRect();
+                const dropdownWidth = 200; // Approximate dropdown width
+                const viewportWidth = window.innerWidth;
+                
+                if (rect.right + dropdownWidth > viewportWidth) {
+                    dropdown.style.right = '0';
+                    dropdown.style.left = 'auto';
+                } else {
+                    dropdown.style.left = '0';
+                    dropdown.style.right = 'auto';
+                }
+            }
         });
         
         // Add click handlers for download options

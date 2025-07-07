@@ -1,4 +1,4 @@
-# AI Textbook Editor
+# Mark↓
 
 A modern, modular AI-powered textbook editor built with vanilla JavaScript, featuring a markdown editor, file management, document outline, and AI assistance.
 

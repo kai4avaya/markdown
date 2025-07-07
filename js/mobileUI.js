@@ -60,40 +60,50 @@ function activateMobileUI() {
     zIndex: 100,
     display: 'flex',
     flexDirection: 'column',
-    transform: 'translateY(55%)',
+    transform: 'translateY(85%)',
     transition: 'transform 0.3s cubic-bezier(.4,2,.6,1)',
-    touchAction: 'none',
+    touchAction: 'pan-y',
   });
   document.body.appendChild(mobilePanel);
   console.log('[MobileUI] Mobile panel created and appended');
 
   // Slide-up logic
-  let startY = 0, startTop = 0, dragging = false;
+  let startY = 0, startTransform = 0, dragging = false;
   const handle = document.getElementById('mobile-slideup-handle');
   handle.addEventListener('touchstart', e => {
+    e.preventDefault();
     dragging = true;
     startY = e.touches[0].clientY;
-    startTop = mobilePanel.getBoundingClientRect().top;
+    // Get current transform value instead of getBoundingClientRect
+    const transform = mobilePanel.style.transform;
+    const match = transform.match(/translateY\(([\d.]+)%\)/);
+    startTransform = match ? parseFloat(match[1]) : 85;
     mobilePanel.style.transition = 'none';
-  });
+  }, { passive: false });
   window.addEventListener('touchmove', e => {
     if (!dragging) return;
+    e.preventDefault();
     const dy = e.touches[0].clientY - startY;
-    let newTop = startTop + dy;
     const vh = window.innerHeight;
-    newTop = Math.max(vh * 0.1, Math.min(newTop, vh * 0.7));
-    mobilePanel.style.transform = `translateY(${((newTop / vh) * 100)}%)`;
-  });
+    // Calculate new transform percentage directly
+    const deltaPercent = (dy / vh) * 100;
+    let newTransform = startTransform + deltaPercent;
+    newTransform = Math.max(5, Math.min(newTransform, 90));
+    mobilePanel.style.transform = `translateY(${newTransform}%)`;
+  }, { passive: false });
   window.addEventListener('touchend', () => {
     if (!dragging) return;
     dragging = false;
     mobilePanel.style.transition = '';
-    // Snap to open/close
+    // Snap to open/close based on position
     const rect = mobilePanel.getBoundingClientRect();
-    if (rect.top > window.innerHeight * 0.5) {
-      mobilePanel.style.transform = 'translateY(55%)';
+    const vh = window.innerHeight;
+    const currentPercent = (rect.top / vh) * 100;
+    
+    if (currentPercent > 60) {
+      mobilePanel.style.transform = 'translateY(85%)';
     } else {
-      mobilePanel.style.transform = 'translateY(0)';
+      mobilePanel.style.transform = 'translateY(5%)';
     }
   });
 

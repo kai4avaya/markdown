@@ -124,9 +124,9 @@ This profile was created using Mark↓ - a local-first, privacy-focused document
 * Connect with me [linkedin](https://www.linkedin.com/in/kai-kleinbard)`;
 
 // Quick Start Guide - Markdown Content
-const QUICK_START_MARKDOWN = `# Quick Start Guide - AI Textbook Editor
+const QUICK_START_MARKDOWN = `# Quick Start Guide - Mark↓
 
-Welcome to your **AI-First Textbook Editor**! This is a local-first, privacy-focused document editor that runs entirely in your browser.
+Welcome to your **Mark↓** Text Editor! This is a local-first, privacy-focused document editor that runs entirely in your browser.
 
 ## 🚀 Getting Started
 

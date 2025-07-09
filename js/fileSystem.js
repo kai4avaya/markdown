@@ -108,11 +108,12 @@ export class FileSystem {
             console.error('Error loading quick start guide:', err);
         }
         
-                    // Also show Kai profile if it exists (regardless of current directory)
+                            // Also show Kai profile if it exists (regardless of current directory)
+        // Defer this to improve initial load performance
+        setTimeout(async () => {
             try {
                 const kaiProfileFile = await indexedDBService.getFile(CONFIG.EDITOR.KAI_PROFILE_FILE);
                 if (kaiProfileFile && !fileSet.has(CONFIG.EDITOR.KAI_PROFILE_FILE)) {
-                    foundFiles = true;
                     fileSet.add(CONFIG.EDITOR.KAI_PROFILE_FILE);
                     const li = this.createFileListItem(CONFIG.EDITOR.KAI_PROFILE_FILE, 'indexeddb', true);
                     this.fileList.appendChild(li);
@@ -120,6 +121,7 @@ export class FileSystem {
             } catch (err) {
                 console.error('Error loading Kai profile:', err);
             }
+        }, 1000); // Load after 1 second
         
         if (!foundFiles) {
             this.fileList.innerHTML = '<li class="text-gray-400 text-sm p-2">No Markdown files found.</li>';
@@ -357,17 +359,18 @@ export class FileSystem {
                 console.error('Error loading quick start guide:', err);
             }
             
-            // Also show Kai profile if it exists
-            try {
-                const kaiProfileFile = await indexedDBService.getFile(CONFIG.EDITOR.KAI_PROFILE_FILE);
-                if (kaiProfileFile) {
-                    const li = this.createFileListItem(CONFIG.EDITOR.KAI_PROFILE_FILE, 'indexeddb', true);
-                    this.fileList.appendChild(li);
-                    totalFiles++;
+            // Also show Kai profile if it exists (deferred for performance)
+            setTimeout(async () => {
+                try {
+                    const kaiProfileFile = await indexedDBService.getFile(CONFIG.EDITOR.KAI_PROFILE_FILE);
+                    if (kaiProfileFile) {
+                        const li = this.createFileListItem(CONFIG.EDITOR.KAI_PROFILE_FILE, 'indexeddb', true);
+                        this.fileList.appendChild(li);
+                    }
+                } catch (err) {
+                    console.error('Error loading Kai profile:', err);
                 }
-            } catch (err) {
-                console.error('Error loading Kai profile:', err);
-            }
+            }, 1000);
             
             if (totalFiles === 0) {
                 this.fileList.innerHTML = '<li class="text-gray-400 text-sm p-2">No saved files found. Create a new file to get started.</li>';
@@ -442,31 +445,38 @@ export class FileSystem {
     async handleFirstTimeUser() {
         try {
             
-            // Import both the Kai profile and quick start guide markdown
-            const { KAI_PROFILE_MARKDOWN, QUICK_START_MARKDOWN } = await import('./kaiProfile.js');
+            // Import quick start guide first for faster initial load
+            const { QUICK_START_MARKDOWN } = await import('./kaiProfile.js');
             
-            // Save both documents to IndexedDB
-            await indexedDBService.saveFile(CONFIG.EDITOR.KAI_PROFILE_FILE, KAI_PROFILE_MARKDOWN, 'welcome');
+            // Save quick start guide to IndexedDB immediately
             await indexedDBService.saveFile(CONFIG.EDITOR.QUICK_START_FILE, QUICK_START_MARKDOWN, 'quick-start');
             
-            // Set the current directory name for the welcome files
-            appState.setCurrentDirectoryName('welcome');
-            
-            // Load the Kai profile into the editor
+            // Load quick start guide into the editor for immediate use
             const editor = appState.getEditor();
-            editor.setMarkdown(KAI_PROFILE_MARKDOWN);
+            editor.setMarkdown(QUICK_START_MARKDOWN);
             
             // Update UI
-            ui.updateStatus(`Welcome! Editing: ${CONFIG.EDITOR.KAI_PROFILE_FILE}`);
-            ui.showToast('Welcome to the AI Textbook Editor! Here\'s a bit about me, Kai Kleinbard.', CONFIG.MESSAGE_TYPES.SUCCESS);
+            ui.updateStatus(`Welcome! Editing: ${CONFIG.EDITOR.QUICK_START_FILE}`);
+            ui.showToast('Welcome to the AI Textbook Editor! Here\'s your quick start guide.', CONFIG.MESSAGE_TYPES.SUCCESS);
             
-            // Update file list to show both files
+            // Update file list to show quick start guide
             await this.populateFileList();
             
             // Set up the file as the current file (virtual file handle)
-            appState.setCurrentFileHandle({ name: CONFIG.EDITOR.KAI_PROFILE_FILE });
+            appState.setCurrentDirectoryName('quick-start');
+            appState.setCurrentFileHandle({ name: CONFIG.EDITOR.QUICK_START_FILE });
             this.updateSaveButtonState(false, false);
             
+            // Defer Kai profile loading to improve performance
+            setTimeout(async () => {
+                try {
+                    const { KAI_PROFILE_MARKDOWN } = await import('./kaiProfile.js');
+                    await indexedDBService.saveFile(CONFIG.EDITOR.KAI_PROFILE_FILE, KAI_PROFILE_MARKDOWN, 'welcome');
+                    console.log('Kai profile loaded and saved in background');
+                } catch (error) {
+                    console.error('Error loading Kai profile in background:', error);
+                }
+            }, 3000); // Load after 3 seconds
             
         } catch (error) {
             console.error('Error handling first-time user:', error);

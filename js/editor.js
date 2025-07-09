@@ -103,13 +103,20 @@ export class Editor {
                     initialContent = await this.loadQuickStartGuide();
                     localStorage.setItem('aiTextbookEditor_hasVisited', 'true');
                     
-                    // Save both documents to IndexedDB for file system
+                    // Save quick start guide to IndexedDB immediately
                     try {
                         await indexedDBService.saveFile('quick-start.md', initialContent, 'quick-start');
                         
-                        // Also save Kai profile
-                        const { KAI_PROFILE_MARKDOWN } = await import('./kaiProfile.js');
-                        await indexedDBService.saveFile(CONFIG.EDITOR.KAI_PROFILE_FILE, KAI_PROFILE_MARKDOWN, 'welcome');
+                        // Defer Kai profile loading to improve initial load performance
+                        setTimeout(async () => {
+                            try {
+                                const { KAI_PROFILE_MARKDOWN } = await import('./kaiProfile.js');
+                                await indexedDBService.saveFile(CONFIG.EDITOR.KAI_PROFILE_FILE, KAI_PROFILE_MARKDOWN, 'welcome');
+                                console.log('Kai profile loaded and saved in background');
+                            } catch (error) {
+                                console.error('Error loading Kai profile in background:', error);
+                            }
+                        }, 2000); // Load after 2 seconds
                     } catch (error) {
                         console.error('Error saving documents to IndexedDB:', error);
                     }

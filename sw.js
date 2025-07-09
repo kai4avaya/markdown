@@ -1,4 +1,6 @@
-const CACHE_NAME = 'ai-textbook-editor-v2';
+const CACHE_NAME = 'ai-textbook-editor-v4';
+
+// Cache all local files for fast loading
 const urlsToCache = [
   '/',
   '/index.html',
@@ -14,23 +16,28 @@ const urlsToCache = [
   '/js/outlineTree.js',
   '/js/outlineTreeSimple.js',
   '/js/kaiProfile.js',
-  'https://cdn.tailwindcss.com',
-  'https://uicdn.toast.com/editor/latest/toastui-editor.min.css',
-  'https://cdn.jsdelivr.net/npm/jquery.fancytree@2.38/dist/skin-win8/ui.fancytree.min.css',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
-  'https://code.jquery.com/jquery-3.6.0.min.js',
-  'https://code.jquery.com/ui/1.13.2/jquery-ui.min.js',
-  'https://cdn.jsdelivr.net/npm/jquery.fancytree@2.38/dist/jquery.fancytree-all-deps.min.js',
-  'https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js'
+  '/js/mobileUI.js',
+  '/lib/css/all.min.css',
+  '/lib/css/tailwind.js',
+  '/lib/css/toastui-editor.min.css',
+  '/lib/css/ui.fancytree.min.css',
+  '/lib/js/jquery-3.6.0.min.js',
+  '/lib/js/jquery-ui.min.js',
+  '/lib/js/jquery.fancytree-all-deps.min.js',
+  '/lib/js/toastui-editor-all.min.js'
 ];
 
-// Install event - cache resources
+// Install event - cache local resources
 self.addEventListener('install', event => {
+  console.log('Service Worker installing...');
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Opened cache');
+        console.log('Caching local resources');
         return cache.addAll(urlsToCache);
+      })
+      .catch(error => {
+        console.error('Service Worker install failed:', error);
       })
   );
 });
@@ -43,6 +50,12 @@ self.addEventListener('fetch', event => {
         // Return cached version or fetch from network
         return response || fetch(event.request);
       })
+      .catch(() => {
+        // If both cache and network fail, return a fallback
+        if (event.request.destination === 'document') {
+          return caches.match('/index.html');
+        }
+      })
   );
 });
 
@@ -50,7 +63,7 @@ self.addEventListener('fetch', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
-      return Promise.all(
+              return Promise.all(
         cacheNames.map(cacheName => {
           if (cacheName !== CACHE_NAME) {
             console.log('Deleting old cache:', cacheName);

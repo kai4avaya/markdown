@@ -1,5 +1,5 @@
-import { CONFIG } from '../js/config.js';
-import { appState } from '../js/state.js';
+import { CONFIG } from './config.js';
+import { appState } from './state.js';
 
 // Outline Tree management using FancyTree
 export class OutlineTree {

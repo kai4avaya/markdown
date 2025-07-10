@@ -22,14 +22,20 @@ export class App {
         if (this.initialized) return;
 
         try {
+            console.time('App: Total Initialization');
             // Initialize all modules
             await this.initializeModules();
+            console.timeEnd('App: Total Initialization');
             
             // Set up event listeners
+            console.time('App: setupEventListeners');
             this.setupEventListeners();
+            console.timeEnd('App: setupEventListeners');
             
             // Initialize AI chat
+            console.time('App: aiChat.initializeChat');
             aiChat.initializeChat();
+            console.timeEnd('App: aiChat.initializeChat');
             
             this.initialized = true;
             console.log('Mark↓ Editor initialized successfully');
@@ -43,23 +49,30 @@ export class App {
 
     // Initialize all application modules
     async initializeModules() {
-        // Initialize IndexedDB first
+        console.time('App: IndexedDB Initialization');
         await indexedDBService.initialize();
+        console.timeEnd('App: IndexedDB Initialization');
         
         // Small delay to ensure IndexedDB is fully ready
+        console.time('App: IndexedDB Delay');
         await new Promise(resolve => setTimeout(resolve, 100));
+        console.timeEnd('App: IndexedDB Delay');
         
-        // Initialize the editor first
+        console.time('App: Editor Initialization');
         await editor.initialize();
+        console.timeEnd('App: Editor Initialization');
         
-        // Initialize file system event listeners
+        console.time('App: FileSystem Event Listeners');
         fileSystem.initializeEventListeners();
+        console.timeEnd('App: FileSystem Event Listeners');
         
-        // Initialize search panel
+        console.time('App: Search Panel Initialization');
         initSearchPanel();
+        console.timeEnd('App: Search Panel Initialization');
         
-        // Load last edited file or handle first-time user
+        console.time('App: Load Last Edited File');
         await fileSystem.loadLastEditedFile();
+        console.timeEnd('App: Load Last Edited File');
     }
 
     // Set up global event listeners
@@ -97,6 +110,22 @@ export class App {
 export const app = new App();
 
 // Initialize the app when the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const requestedFile = urlParams.get('file');
+    if (requestedFile === CONFIG.EDITOR.KAI_PROFILE_FILE) {
+        // Fast path: hide loader and show editor immediately
+        const loader = document.getElementById('app-loader');
+        if (loader) loader.style.display = 'none';
+        // Initialize just the editor immediately
+        await editor.initialize();
+        // Let the rest of the app initialize in the background (don't await)
+        app.initializeModules();
+        app.setupEventListeners();
+        aiChat.initializeChat();
+        app.initialized = true;
+        console.log('Mark↓ Editor (profile fast-path) initialized successfully');
+        return;
+    }
     app.initialize();
 }); 

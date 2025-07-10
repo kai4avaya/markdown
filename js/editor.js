@@ -434,6 +434,22 @@ export class Editor {
     // Load file content from URL parameter
     async loadFileContent(fileName) {
         try {
+            // Special case: Instantly show Kai profile if requested
+            if (fileName === CONFIG.EDITOR.KAI_PROFILE_FILE) {
+                const { KAI_PROFILE_MARKDOWN } = await import('./kaiProfile.js');
+                // Lazy save in background if not present
+                setTimeout(async () => {
+                    try {
+                        const kaiProfileFile = await indexedDBService.getFile(CONFIG.EDITOR.KAI_PROFILE_FILE);
+                        if (!kaiProfileFile) {
+                            await indexedDBService.saveFile(CONFIG.EDITOR.KAI_PROFILE_FILE, KAI_PROFILE_MARKDOWN, 'welcome');
+                        }
+                    } catch (err) {
+                        console.error('Error lazy-saving Kai profile to IndexedDB:', err);
+                    }
+                }, 0);
+                return KAI_PROFILE_MARKDOWN;
+            }
             // First try to get from IndexedDB
             const savedFile = await indexedDBService.getFile(fileName);
             if (savedFile) {

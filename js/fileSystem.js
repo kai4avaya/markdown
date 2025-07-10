@@ -444,12 +444,15 @@ export class FileSystem {
     // Handle first-time user experience
     async handleFirstTimeUser() {
         try {
-            
+            console.time('FileSystem: handleFirstTimeUser:importQuickStart');
             // Import quick start guide first for faster initial load
             const { QUICK_START_MARKDOWN } = await import('./kaiProfile.js');
+            console.timeEnd('FileSystem: handleFirstTimeUser:importQuickStart');
             
             // Save quick start guide to IndexedDB immediately
+            console.time('FileSystem: handleFirstTimeUser:saveQuickStart');
             await indexedDBService.saveFile(CONFIG.EDITOR.QUICK_START_FILE, QUICK_START_MARKDOWN, 'quick-start');
+            console.timeEnd('FileSystem: handleFirstTimeUser:saveQuickStart');
             
             // Load quick start guide into the editor for immediate use
             const editor = appState.getEditor();
@@ -460,7 +463,9 @@ export class FileSystem {
             ui.showToast('Welcome to the AI Textbook Editor! Here\'s your quick start guide.', CONFIG.MESSAGE_TYPES.SUCCESS);
             
             // Update file list to show quick start guide
+            console.time('FileSystem: handleFirstTimeUser:populateFileList');
             await this.populateFileList();
+            console.timeEnd('FileSystem: handleFirstTimeUser:populateFileList');
             
             // Set up the file as the current file (virtual file handle)
             appState.setCurrentDirectoryName('quick-start');
@@ -470,14 +475,17 @@ export class FileSystem {
             // Defer Kai profile loading to improve performance
             setTimeout(async () => {
                 try {
+                    console.time('FileSystem: handleFirstTimeUser:importKaiProfile');
                     const { KAI_PROFILE_MARKDOWN } = await import('./kaiProfile.js');
+                    console.timeEnd('FileSystem: handleFirstTimeUser:importKaiProfile');
+                    console.time('FileSystem: handleFirstTimeUser:saveKaiProfile');
                     await indexedDBService.saveFile(CONFIG.EDITOR.KAI_PROFILE_FILE, KAI_PROFILE_MARKDOWN, 'welcome');
+                    console.timeEnd('FileSystem: handleFirstTimeUser:saveKaiProfile');
                     console.log('Kai profile loaded and saved in background');
                 } catch (error) {
                     console.error('Error loading Kai profile in background:', error);
                 }
             }, 3000); // Load after 3 seconds
-            
         } catch (error) {
             console.error('Error handling first-time user:', error);
             ui.showToast('Error setting up welcome file', CONFIG.MESSAGE_TYPES.ERROR);
@@ -511,6 +519,7 @@ export class FileSystem {
     // Load the last edited file or handle first-time user
     async loadLastEditedFile() {
         try {
+            console.time('FileSystem: loadLastEditedFile');
             // Check if editor has already handled first-time user experience
             const hasVisitedBefore = localStorage.getItem('aiTextbookEditor_hasVisited');
             const editorHandledFirstTime = !hasVisitedBefore;
@@ -518,55 +527,69 @@ export class FileSystem {
             // Only check IndexedDB if editor hasn't handled first-time user
             let isFirstTime = false;
             if (!editorHandledFirstTime) {
+                console.time('FileSystem: isFirstTimeUser');
                 isFirstTime = await indexedDBService.isFirstTimeUser();
+                console.timeEnd('FileSystem: isFirstTimeUser');
             }
             
             if (isFirstTime && !editorHandledFirstTime) {
                 // Handle first-time user (only if editor hasn't already)
+                console.time('FileSystem: handleFirstTimeUser');
                 await this.handleFirstTimeUser();
-                            } else {
-                    // Check if any bundled documents are available
-                    const quickStartFile = await indexedDBService.getFile(CONFIG.EDITOR.QUICK_START_FILE);
-                    const kaiProfileFile = await indexedDBService.getFile(CONFIG.EDITOR.KAI_PROFILE_FILE);
-                    
-                    if (quickStartFile || kaiProfileFile) {
-                        // At least one bundled document is available
-                        // Set directory based on what's available
-                        if (quickStartFile && quickStartFile.directoryName === 'quick-start') {
-                            appState.setCurrentDirectoryName('quick-start');
-                            appState.setCurrentFileHandle({ name: CONFIG.EDITOR.QUICK_START_FILE });
-                            ui.updateStatus(`Editing: ${CONFIG.EDITOR.QUICK_START_FILE}`);
-                        } else if (kaiProfileFile && kaiProfileFile.directoryName === 'welcome') {
-                            appState.setCurrentDirectoryName('welcome');
-                            appState.setCurrentFileHandle({ name: CONFIG.EDITOR.KAI_PROFILE_FILE });
-                            ui.updateStatus(`Editing: ${CONFIG.EDITOR.KAI_PROFILE_FILE}`);
-                        } else {
-                            // Default to quick-start directory if available
-                            appState.setCurrentDirectoryName('quick-start');
-                            appState.setCurrentFileHandle({ name: CONFIG.EDITOR.QUICK_START_FILE });
-                            ui.updateStatus(`Editing: ${CONFIG.EDITOR.QUICK_START_FILE}`);
-                        }
-                        
-                        await this.populateFileList();
-                        this.updateSaveButtonState(false, false);
-                        
-                        // Ensure both documents are available
-                        try {
-                            const { KAI_PROFILE_MARKDOWN, QUICK_START_MARKDOWN } = await import('./kaiProfile.js');
-                            
-                            if (!kaiProfileFile) {
-                                await indexedDBService.saveFile(CONFIG.EDITOR.KAI_PROFILE_FILE, KAI_PROFILE_MARKDOWN, 'welcome');
-                            }
-                            
-                            if (!quickStartFile) {
-                                await indexedDBService.saveFile(CONFIG.EDITOR.QUICK_START_FILE, QUICK_START_MARKDOWN, 'quick-start');
-                            }
-                        } catch (error) {
-                            console.error('Error ensuring bundled documents are available:', error);
-                        }
+                console.timeEnd('FileSystem: handleFirstTimeUser');
+            } else {
+                // Check if any bundled documents are available
+                console.time('FileSystem: getFile quickStart');
+                const quickStartFile = await indexedDBService.getFile(CONFIG.EDITOR.QUICK_START_FILE);
+                console.timeEnd('FileSystem: getFile quickStart');
+                console.time('FileSystem: getFile kaiProfile');
+                const kaiProfileFile = await indexedDBService.getFile(CONFIG.EDITOR.KAI_PROFILE_FILE);
+                console.timeEnd('FileSystem: getFile kaiProfile');
+                
+                if (quickStartFile || kaiProfileFile) {
+                    // At least one bundled document is available
+                    // Set directory based on what's available
+                    if (quickStartFile && quickStartFile.directoryName === 'quick-start') {
+                        appState.setCurrentDirectoryName('quick-start');
+                        appState.setCurrentFileHandle({ name: CONFIG.EDITOR.QUICK_START_FILE });
+                        ui.updateStatus(`Editing: ${CONFIG.EDITOR.QUICK_START_FILE}`);
+                    } else if (kaiProfileFile && kaiProfileFile.directoryName === 'welcome') {
+                        appState.setCurrentDirectoryName('welcome');
+                        appState.setCurrentFileHandle({ name: CONFIG.EDITOR.KAI_PROFILE_FILE });
+                        ui.updateStatus(`Editing: ${CONFIG.EDITOR.KAI_PROFILE_FILE}`);
                     } else {
+                        // Default to quick-start directory if available
+                        appState.setCurrentDirectoryName('quick-start');
+                        appState.setCurrentFileHandle({ name: CONFIG.EDITOR.QUICK_START_FILE });
+                        ui.updateStatus(`Editing: ${CONFIG.EDITOR.QUICK_START_FILE}`);
+                    }
+                    
+                    console.time('FileSystem: populateFileList');
+                    await this.populateFileList();
+                    console.timeEnd('FileSystem: populateFileList');
+                    this.updateSaveButtonState(false, false);
+                    
+                    // Ensure both documents are available
+                    try {
+                        const { KAI_PROFILE_MARKDOWN, QUICK_START_MARKDOWN } = await import('./kaiProfile.js');
+                        if (!kaiProfileFile) {
+                            console.time('FileSystem: saveFile kaiProfile');
+                            await indexedDBService.saveFile(CONFIG.EDITOR.KAI_PROFILE_FILE, KAI_PROFILE_MARKDOWN, 'welcome');
+                            console.timeEnd('FileSystem: saveFile kaiProfile');
+                        }
+                        if (!quickStartFile) {
+                            console.time('FileSystem: saveFile quickStart');
+                            await indexedDBService.saveFile(CONFIG.EDITOR.QUICK_START_FILE, QUICK_START_MARKDOWN, 'quick-start');
+                            console.timeEnd('FileSystem: saveFile quickStart');
+                        }
+                    } catch (error) {
+                        console.error('Error ensuring bundled documents are available:', error);
+                    }
+                } else {
                     // Load the most recently edited file
+                    console.time('FileSystem: getLastEditedFile');
                     const lastFile = await indexedDBService.getLastEditedFile();
+                    console.timeEnd('FileSystem: getLastEditedFile');
                     
                     if (lastFile) {
                         // Set the directory name
@@ -580,18 +603,20 @@ export class FileSystem {
                         ui.updateStatus(`Editing: ${lastFile.fileName}`);
                         
                         // Update file list
+                        console.time('FileSystem: populateFileList');
                         await this.populateFileList();
+                        console.timeEnd('FileSystem: populateFileList');
                         
                         // Set up the file as the current file
                         appState.setCurrentFileHandle({ name: lastFile.fileName });
                         this.updateSaveButtonState(false, false);
-                        
                     } else {
                         // No files found, show empty editor
                         ui.updateStatus('No files found. Create a new file or open a folder.');
                     }
                 }
             }
+            console.timeEnd('FileSystem: loadLastEditedFile');
         } catch (error) {
             console.error('Error loading last edited file:', error);
             ui.showToast('Error loading last edited file', CONFIG.MESSAGE_TYPES.ERROR);

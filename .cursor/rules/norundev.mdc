@@ -1,0 +1,9 @@
+---
+description: 
+globs:
+alwaysApply: true
+---
+
+Do not do npm run dev, npm run preview.  I will do that manually
+
+Always use windows powershell in your terminal commans

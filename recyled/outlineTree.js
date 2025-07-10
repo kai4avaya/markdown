@@ -1,8 +1,8 @@
-import { CONFIG } from './config.js';
-import { appState } from './state.js';
+import { CONFIG } from '../js/config.js';
+import { appState } from '../js/state.js';
 
-// Simple Outline Tree management using jsTree
-export class OutlineTreeSimple {
+// Outline Tree management using FancyTree
+export class OutlineTree {
     constructor() {
         this.tree = null;
         this.outlineContainer = null;
@@ -18,36 +18,52 @@ export class OutlineTreeSimple {
         this.initialized = true;
     }
 
-    // Setup the jsTree component
+    // Setup the FancyTree component
     setupTree() {
         // Clear the container
         this.outlineContainer.innerHTML = '';
         
         // Create the tree container
         const treeContainer = document.createElement('div');
-        treeContainer.id = 'outline-tree-simple';
-        treeContainer.className = 'outline-tree-simple-container';
+        treeContainer.id = 'outline-tree';
+        treeContainer.className = 'outline-tree-container';
         this.outlineContainer.appendChild(treeContainer);
 
-        // Initialize jsTree
-        $(treeContainer).jstree({
-            core: {
-                data: [],
-                themes: {
-                    name: 'proton',
-                    responsive: true
-                },
-                check_callback: true
+        // Initialize FancyTree
+        this.tree = $(treeContainer).fancytree({
+            source: [],
+            activate: (event, data) => {
+                this.handleNodeClick(data.node);
             },
-            plugins: ['themes', 'html_data'],
-            html_data: {
-                ajax: false
-            }
-        }).on('select_node.jstree', (e, data) => {
-            this.handleNodeClick(data.node);
+            click: (event, data) => {
+                // Prevent default to handle custom click
+                return false;
+            },
+            renderNode: (event, data) => {
+                // Custom rendering for better visual hierarchy
+                const node = data.node;
+                const $span = $(node.span);
+                
+                // Add custom classes based on heading level
+                $span.find('.fancytree-title').addClass(`heading-level-${node.data.level || 1}`);
+                
+                // Add line number indicator
+                if (node.data.line) {
+                    $span.find('.fancytree-title').append(
+                        `<span class=\"line-number\">:${node.data.line}</span>`
+                    );
+                }
+            },
+            // Tree options
+            autoScroll: true,
+            clickFolderMode: 2, // Single click to expand/collapse
+            debugLevel: 0,
+            // Styling
+            icon: (event, data) => 'fa fa-file-text', // Always use file icon
+            titlesTabbable: true,
+            // Performance
+            lazyLoad: false
         });
-
-        this.tree = $(treeContainer);
     }
 
     // Update the outline tree with new markdown content
@@ -69,23 +85,11 @@ export class OutlineTreeSimple {
             return;
         }
         
-        // Update the tree with new data
-        this.tree.jstree('destroy');
-        this.tree.jstree({
-            core: {
-                data: treeData,
-                themes: {
-                    name: 'proton',
-                    responsive: true
-                },
-                check_callback: true
-            },
-            plugins: ['themes', 'html_data'],
-            html_data: {
-                ajax: false
-            }
-        }).on('select_node.jstree', (e, data) => {
-            this.handleNodeClick(data.node);
+        // Reload the tree with new data
+        this.tree.fancytree('getTree').reload(treeData);
+        // Force all nodes with children to be expanded
+        this.tree.fancytree('getTree').visit(function(node){
+            if(node.hasChildren()) node.setExpanded(true);
         });
     }
 
@@ -102,28 +106,26 @@ export class OutlineTreeSimple {
                 const level = match[1].length;
                 const title = match[2].trim();
                 const lineNumber = index + 1;
-                
+
                 const node = {
-                    text: `${title} <span class="line-number">:${lineNumber}</span>`,
-                    id: `heading-${lineNumber}`,
+                    title: title,
+                    key: `heading-${lineNumber}`,
                     data: {
                         level: level,
                         line: lineNumber,
                         type: 'heading'
                     },
-                    children: [],
-                    state: {
-                        opened: level <= 2 // Auto-expand first two levels
-                    }
+                    children: []
                 };
 
-                // Find the correct parent level
+                // Pop the stack to the correct parent level
                 while (stack.length > 1 && stack[stack.length - 1].level >= level) {
                     stack.pop();
                 }
-                
+
                 // Add to parent
                 stack[stack.length - 1].children.push(node);
+                // Push this node to the stack
                 stack.push({ level: level, children: node.children });
             }
         });
@@ -150,14 +152,14 @@ export class OutlineTreeSimple {
     // Expand all nodes
     expandAll() {
         if (this.tree) {
-            this.tree.jstree('open_all');
+            this.tree.fancytree('getTree').expandAll();
         }
     }
 
     // Collapse all nodes
     collapseAll() {
         if (this.tree) {
-            this.tree.jstree('close_all');
+            this.tree.fancytree('getTree').collapseAll();
         }
     }
 
@@ -169,7 +171,7 @@ export class OutlineTreeSimple {
     // Destroy the tree (for cleanup)
     destroy() {
         if (this.tree) {
-            this.tree.jstree('destroy');
+            this.tree.fancytree('destroy');
             this.tree = null;
         }
         this.initialized = false;
@@ -177,4 +179,4 @@ export class OutlineTreeSimple {
 }
 
 // Create and export a singleton instance
-export const outlineTreeSimple = new OutlineTreeSimple(); 
+export const outlineTree = new OutlineTree(); 

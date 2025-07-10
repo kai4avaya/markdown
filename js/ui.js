@@ -1,6 +1,6 @@
 import { CONFIG } from './config.js';
 import { appState } from './state.js';
-import { outlineTree } from './outlineTree.js';
+import { outlineTreeVanilla } from '../recyled/outlineTreeVanilla.js';
 import { fileSystem } from './fileSystem.js';
 
 // UI utilities for the AI Textbook Editor
@@ -33,7 +33,7 @@ export class UI {
         this.initializeActivePanel();
         
         // Initialize the outline tree
-        outlineTree.initialize();
+        outlineTreeVanilla.initialize();
         
         // Initialize outline tree controls
         this.initializeOutlineControls();
@@ -184,7 +184,7 @@ export class UI {
 
     // Outline generation and management
     updateOutline() {
-        outlineTree.updateOutline();
+        outlineTreeVanilla.updateOutline();
     }
 
     // Debounced outline update
@@ -201,13 +201,13 @@ export class UI {
         
         if (expandAllBtn) {
             expandAllBtn.addEventListener('click', () => {
-                outlineTree.expandAll();
+                outlineTreeVanilla.expandAll();
             });
         }
         
         if (collapseAllBtn) {
             collapseAllBtn.addEventListener('click', () => {
-                outlineTree.collapseAll();
+                outlineTreeVanilla.collapseAll();
             });
         }
     }

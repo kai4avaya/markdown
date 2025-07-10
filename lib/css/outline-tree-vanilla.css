@@ -1,0 +1,125 @@
+/* Vanilla Outline Tree Styles */
+.outline-node {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.outline-node-content {
+    display: flex;
+    align-items: center;
+    padding: 4px 0;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    min-height: 24px;
+}
+
+.outline-node-content:hover {
+    background-color: #f3f4f6;
+}
+
+.outline-toggle {
+    background: none;
+    border: none;
+    padding: 2px 4px;
+    margin-right: 4px;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #6b7280;
+    border-radius: 2px;
+}
+
+.outline-toggle:hover {
+    background-color: #e5e7eb;
+}
+
+.outline-spacer {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    display: inline-block;
+}
+
+.outline-text {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    padding: 2px 4px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.outline-text:hover {
+    background-color: #e5e7eb;
+}
+
+.outline-children {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+.outline-children:not(.expanded) {
+    max-height: 0;
+}
+
+.outline-children.expanded {
+    max-height: 1000px;
+}
+
+.line-number {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-left: auto;
+    font-family: monospace;
+}
+
+/* Heading level styles */
+.heading-level-1 {
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 14px;
+}
+
+.heading-level-2 {
+    font-weight: 500;
+    color: #374151;
+    font-size: 13px;
+}
+
+.heading-level-3 {
+    font-weight: 400;
+    color: #4b5563;
+    font-size: 13px;
+}
+
+.heading-level-4,
+.heading-level-5,
+.heading-level-6 {
+    font-weight: 400;
+    color: #6b7280;
+    font-size: 12px;
+}
+
+/* Outline message */
+.outline-message {
+    padding: 16px;
+    text-align: center;
+    color: #6b7280;
+    font-style: italic;
+    font-size: 13px;
+}
+
+/* Container styles */
+#outline-list {
+    padding: 0;
+    margin: 0;
+}

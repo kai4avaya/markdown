@@ -1,15 +1,15 @@
-import '../lib/js/toastui-editor-all.min.js';
+// Import CSS dependencies
+// import '../css/styles.css';
 
-import { ui } from './ui.js';
-import { fileSystem } from './fileSystem.js';
-import { aiChat } from './aiChat.js';
-import { editor } from './editor.js';
-import { indexedDBService } from './indexedDB.js';
-import { appState } from './state.js';
-import { CONFIG } from './config.js';
-import { initSearchPanel } from './searchPanel.js';
-// In your main.js or a vendor bundle
-
+// Import the main app
+import { ui } from '../js/ui.js';
+import { fileSystem } from '../js/fileSystem.js';
+import { aiChat } from '../js/aiChat.js';
+import { editor } from '../js/editor.js';
+import { indexedDBService } from '../js/indexedDB.js';
+import { appState } from '../js/state.js';
+import { CONFIG } from '../js/config.js';
+import { initSearchPanel } from '../js/searchPanel.js';
 
 // Main application class for the AI Textbook Editor
 export class App {
@@ -99,4 +99,4 @@ export const app = new App();
 // Initialize the app when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     app.initialize();
-}); 
+});

@@ -1,0 +1,31 @@
+{
+  "name": "owncourse2",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A modern, modular AI-powered markdown editor built with vanilla JavaScript, featuring a markdown editor, file management, document outline, and AI assistance.",
+  "main": "sw.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kai4avaya/markdown.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kai4avaya/markdown/issues"
+  },
+  "homepage": "https://github.com/kai4avaya/markdown#readme",
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.11",
+    "esbuild": "^0.25.6",
+    "tailwindcss": "^4.1.11",
+    "vite": "^7.0.3"
+  }
+}
